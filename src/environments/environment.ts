@@ -5,13 +5,13 @@
 export const environment = {
   production: false,
   firebaseConfig: {
-    apiKey: "AIzaSyAriLISGQuP-hYdseASUvCih6ghJGCVN-4",
-    authDomain: "autolite-7901a.firebaseapp.com",
-    databaseURL: "https://autolite-7901a.firebaseio.com",
-    projectId: "autolite-7901a",
-    storageBucket: "autolite-7901a.appspot.com",
-    messagingSenderId: "320328269998",
-    appId: "1:320328269998:web:01663360fa5c5c52896d3f"
+    apiKey: "AIzaSyChKpI-__J0aLp0uB34Fg5BJXjOvlTYtaY",
+    authDomain: "inhealth-dev.firebaseapp.com",
+    projectId: "inhealth-dev",
+    storageBucket: "inhealth-dev.appspot.com",
+    messagingSenderId: "857518981613",
+    appId: "1:857518981613:web:443ac8dfc2bb4fcee6e7e4"
+
   }
 };
 
