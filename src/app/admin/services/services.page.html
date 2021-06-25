@@ -1,0 +1,125 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-img src="assets/img/logo/logo.svg" class="logo-header"></ion-img>
+    </ion-buttons>
+    <ion-title>Servicios</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-grid fixed>
+    <form [formGroup]="servicesForm">
+      <ion-list>
+        <ion-item lines="inset">
+          <ion-label position="floating">Nombre</ion-label>
+          <ion-input type="text" formControlName="name"></ion-input>
+        </ion-item>
+
+        <ion-text
+          color="danger"
+          *ngIf="errorControl.name.dirty && errorControl.name.errors?.required"
+        >
+          Especifica el nombre del Servicio.
+        </ion-text>
+
+        <ion-item lines="inset">
+          <ion-label position="floating">Precio</ion-label>
+          <ion-input
+            pattern="(\d)+(\.\d{2})?"
+            type="text"
+            formControlName="price"
+          ></ion-input>
+        </ion-item>
+
+        <ion-text
+          color="danger"
+          *ngIf="errorControl.price.dirty && (errorControl.price.errors?.required || errorControl.price.errors?.pattern)"
+        >
+          Precio inválido.
+        </ion-text>
+      </ion-list>
+
+      <ion-button
+        type="button"
+        class="ion-margin"
+        expand="full"
+        (click)="crearServicio()"
+      >
+        Crear Servicio
+      </ion-button>
+    </form>
+
+    <ion-card
+      *ngFor="let service of services | async; trackBy:trackBy"
+      class="ion-margin-top"
+    >
+      <ion-card-header>
+        <ion-card-title>{{service.name}}</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        Precio: Q.{{ service.price }}
+        <br />
+        <hr />
+
+        <div class="ion-text-end">
+          <ion-button
+            color="tertiary"
+            (click)="service.edit = true"
+            [disabled]="service.edit"
+          >
+            <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+          </ion-button>
+          <ion-button color="danger" (click)="eliminar(service.uid)">
+            <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+          </ion-button>
+        </div>
+      </ion-card-content>
+
+      <ion-card-content [hidden]="!service.edit">
+        <form (submit)="actualizarServicio(service, name.value, price.value)">
+          <ion-list inset>
+            <h2>Editar</h2>
+            <ion-item>
+              <ion-label position="floating">Nombre</ion-label>
+              <ion-input type="text" #name></ion-input>
+            </ion-item>
+
+            <ion-item lines="inset">
+              <ion-label position="floating">Precio</ion-label>
+              <ion-input type="text" #price></ion-input>
+            </ion-item>
+          </ion-list>
+
+          <ion-grid>
+            <ion-row>
+              <ion-col>
+                <ion-text
+                  color="danger"
+                  *ngIf="service.msg"
+                  class="ion-text-center"
+                >
+                  {{service.msg}}
+                </ion-text>
+              </ion-col>
+            </ion-row>
+            <ion-row class="ion-margin-top">
+              <ion-col>
+                <ion-button color="warning" type="submit">
+                  Actualizar
+                </ion-button>
+              </ion-col>
+
+              <ion-col>
+                <ion-button color="medium" (click)="service.edit = false">
+                  Cancelar
+                </ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </form>
+      </ion-card-content>
+    </ion-card>
+  </ion-grid>
+</ion-content>

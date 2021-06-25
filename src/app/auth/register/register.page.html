@@ -1,0 +1,133 @@
+<ion-content color="primary">
+  <ion-grid fixed>
+    <div class="contenido">
+      <img src="assets/img/logo/logo-blanco.svg" alt="logo" width="100" />
+
+      <h1 class="title">Regístrate</h1>
+
+      <form [formGroup]="registerForm" (submit)="onSubmit();">
+        <ion-list lines="full" class="ion-no-margin ion-no-padding">
+          <ion-item color="primary">
+            <ion-label position="stacked">
+              Nombre <ion-text color="danger">*</ion-text>
+            </ion-label>
+            <ion-input
+              required
+              formControlName="firstname"
+              type="text"
+            ></ion-input>
+          </ion-item>
+
+          <span
+            class="error"
+            *ngIf="isSubmitted && errorControl.firstname.errors?.required"
+          >
+            Su nombre es necesario.
+          </span>
+
+          <ion-item color="primary">
+            <ion-label position="stacked">
+              Apellido <ion-text color="danger">*</ion-text>
+            </ion-label>
+            <ion-input
+              required
+              formControlName="lastname"
+              type="text"
+            ></ion-input>
+          </ion-item>
+
+          <span
+            class="error"
+            *ngIf="isSubmitted && errorControl.lastname.errors?.required"
+          >
+            Su apellido es necesario.
+          </span>
+
+          <ion-item color="primary">
+            <ion-label position="stacked">
+              Correo <ion-text color="danger">*</ion-text>
+            </ion-label>
+            <ion-input
+              required
+              formControlName="email"
+              type="email"
+            ></ion-input>
+          </ion-item>
+
+          <span
+            class="error"
+            *ngIf="isSubmitted && errorControl.email.errors?.required"
+          >
+            El correo no es válido.
+          </span>
+
+          <ion-item color="primary">
+            <ion-label position="stacked">
+              Telefono <ion-text color="danger">*</ion-text>
+            </ion-label>
+            <ion-input type="text" formControlName="tel"></ion-input>
+          </ion-item>
+
+          <span
+            class="error"
+            *ngIf="isSubmitted && (errorControl.tel.errors?.required || errorControl.tel.errors?.pattern)"
+          >
+            El telefono no es válido.
+          </span>
+
+          <ion-item color="primary">
+            <ion-label position="stacked">
+              Contraseña <ion-text color="danger">*</ion-text>
+            </ion-label>
+            <ion-input
+              required
+              formControlName="password"
+              type="password"
+            ></ion-input>
+          </ion-item>
+          <span
+            class="error"
+            *ngIf="isSubmitted && (errorControl.password.errors?.required || errorControl.password.errors?.minLength)"
+          >
+            La contraseña no es válida, debe ser de al menos 8 caracteres.
+          </span>
+
+          <ion-item color="primary">
+            <ion-label position="stacked">
+              Confirmar Contraseña
+              <ion-text color="danger">*</ion-text>
+            </ion-label>
+            <ion-input
+              required
+              formControlName="confirmpassword"
+              type="password"
+            ></ion-input>
+          </ion-item>
+
+          <span class="error" *ngIf="!confirm">
+            La contraseña debe coincidir en ambos campos.
+          </span>
+        </ion-list>
+
+        <ion-grid>
+          <ion-row>
+            <ion-button
+              class="main"
+              color="light"
+              fill="outline"
+              size="large"
+              type="submit"
+            >
+              Registrarme
+            </ion-button>
+          </ion-row>
+        </ion-grid>
+      </form>
+
+      <div class="ion-text-center">
+        ¿Ya tienes cuenta?
+        <a routerLink="/login" routerDirection="root"> Inicia Sesión </a>
+      </div>
+    </div>
+  </ion-grid>
+</ion-content>

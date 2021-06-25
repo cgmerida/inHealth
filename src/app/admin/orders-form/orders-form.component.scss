@@ -1,0 +1,54 @@
+ion-button.ion-margin {
+  --border-radius: 25px;
+}
+
+// .service-list {
+//   ion-label {
+//     color: rgba(160, 160, 160, 0.4);
+//   }
+// }
+
+ion-list-header {
+  font-weight: bolder;
+  font-size: 1.15em;
+}
+
+.services-list {
+  --padding-end: 0;
+  --padding-start: 0;
+  --inner-padding-end: 0;
+  --background: rgba(187, 205, 212, 0.35);
+
+  ion-item {
+    --background: rgba(187, 205, 212, 0.35);
+  }
+  > * {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    font-size: 14px;
+  }
+}
+
+ion-checkbox {
+  margin-inline-end: 10px;
+}
+
+.product-list-header {
+  color: rgba(2, 2, 62, 0.35);
+  font-weight: bolder;
+}
+
+.product-list-item {
+  color: rgba(120, 120, 120, 1);
+}
+
+ion-select.mySelect {
+  color: #545ca7;
+  --placeholder-color: #971e49;
+  --placeholder-opacity: 0.5;
+}
+
+ion-button.ion-margin {
+  --border-radius: 25px;
+}

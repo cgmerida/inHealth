@@ -1,0 +1,169 @@
+<ion-content fullscreen>
+  <div class="hide-md ion-text-center ion-hide-lg-up ion-margin-top">
+    <ion-icon name="chevron-down-outline"></ion-icon>
+  </div>
+
+  <div>
+    <h4 class="ion-no-margin ion-text-center ion-margin-top">Seguimiento</h4>
+  </div>
+
+  <ion-list lines="full">
+    <ion-list-header>
+      <ion-label>Progreso: {{ order.progress }}%</ion-label>
+    </ion-list-header>
+    <ion-item>
+      <ion-range
+        (ionChange)="progressChange($event)"
+        [value]="order.progress"
+        debounce="500"
+        color="secondary"
+        pin="true"
+        min="0"
+        max="100"
+        step="10"
+      >
+        <ion-label slot="start">0</ion-label>
+        <ion-label slot="end">100</ion-label>
+      </ion-range>
+    </ion-item>
+  </ion-list>
+
+  <ion-list lines="full">
+    <ion-list-header>Servicios</ion-list-header>
+
+    <!-- ITEM PARA AGREGAR SERVICOIS -->
+    <ion-item>
+      <ion-label position="fixed">Servicios</ion-label>
+      <ion-select placeholder="Servicios" #serviceSelect>
+        <ion-select-option
+          *ngFor="let service of services | async"
+          [value]="service"
+        >
+          {{ service.name }}
+        </ion-select-option>
+      </ion-select>
+
+      <ion-button
+        color="dark"
+        expand="full"
+        slot="end"
+        [disabled]="!serviceSelect.value"
+        (click)="addService(serviceSelect.value); serviceSelect.value = null"
+      >
+        <ion-icon name="add" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-item>
+
+    <div *ngFor="let service of order.services">
+      <ion-item
+        (click)="service.addProducts = service.addProducts ? false : true"
+      >
+        <!-- <ion-checkbox
+          slot="start"
+          color="success"
+          class="ion-no-margin"
+        ></ion-checkbox> -->
+        <ion-grid>
+          <ion-row>
+            <ion-col size="8">
+              {{ service.name }}
+            </ion-col>
+            <ion-col>
+              {{ service.price | currency: "GTQ":"symbol-narrow" }}
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+        <ion-button
+          class="ion-no-margin"
+          color="danger"
+          slot="end"
+          (click)="delService(service.uid);"
+        >
+          <ion-icon name="trash" slot="icon-only"></ion-icon>
+        </ion-button>
+        <ion-icon
+          [name]="service.addProducts ? 'chevron-forward' : 'chevron-down'"
+          slot="end"
+        ></ion-icon>
+      </ion-item>
+      <ion-item *ngIf="service.addProducts" class="services-list">
+        <ion-list lines="none">
+          <ion-item class="product-list-header ion-text-uppercase">
+            <ion-grid>
+              <ion-row>
+                <ion-col size="8">Producto</ion-col>
+                <ion-col class="ion-text-right">Precio</ion-col>
+              </ion-row>
+            </ion-grid>
+
+            <ion-button class="ion-no-margin ion-invisible" slot="end">
+              <ion-icon name="trash" slot="icon-only"></ion-icon>
+            </ion-button>
+          </ion-item>
+          <ion-item
+            *ngFor="let product of service.products"
+            class="product-list-item"
+            lines="none"
+          >
+            <ion-label>
+              <ion-grid>
+                <ion-row class="ion-align-items-center">
+                  <ion-col size="8">{{ product.name }}</ion-col>
+                  <ion-col class="ion-text-right">
+                    {{ product.price | currency: "GTQ":"symbol-narrow" }}
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </ion-label>
+
+            <ion-button
+              class="ion-no-margin"
+              color="danger"
+              slot="end"
+              (click)="delProduct(service.uid, product.uid)"
+            >
+              <ion-icon name="trash" slot="icon-only"></ion-icon>
+            </ion-button>
+          </ion-item>
+
+          <!-- ITEM PARA AGREGAR PRODUCTOS -->
+          <ion-item>
+            <ion-label position="fixed">Productos</ion-label>
+            <ion-select placeholder="Productos" #productSelect>
+              <ion-select-option
+                *ngFor="let product of products | async"
+                [value]="product"
+              >
+                {{ product.name }}
+              </ion-select-option>
+            </ion-select>
+
+            <ion-button
+              color="dark"
+              expand="full"
+              slot="end"
+              [disabled]="!productSelect.value"
+              (click)="
+                addProduct(service.uid, productSelect.value);
+                productSelect.value = null
+              "
+            >
+              <ion-icon name="add" slot="icon-only"></ion-icon>
+            </ion-button>
+          </ion-item>
+        </ion-list>
+      </ion-item>
+    </div>
+  </ion-list>
+
+  <ion-button
+    type="submit"
+    class="ion-margin"
+    expand="block"
+    color="secondary"
+    (click)="updateOrder()"
+  >
+    Actualizar
+  </ion-button>
+</ion-content>

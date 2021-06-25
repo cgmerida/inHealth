@@ -1,0 +1,76 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar translucent>
+    <ion-buttons slot="start">
+      <ion-button routerLink="/app/inicio" routerDirection="back">
+        <!-- <ion-icon name="chevron-back"></ion-icon> -->
+        Atras
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center">Mis Vehículos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-button (click)="presentModal();" expand="block">
+    Registrar Carro
+  </ion-button>
+
+  <ion-card *ngFor="let car of cars | async; trackBy:trackBy">
+    <ion-img *ngIf="!!car.photo" [src]="car.photo"></ion-img>
+    <ion-card-header>
+      <ion-card-title>{{car.brand}} {{ car.line }}</ion-card-title>
+      <ion-card-subtitle>{{ car.model }}</ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-text color="dark" *ngIf="!!car.km" class="ion-margin-bottom">
+        <p>KM {{car.km.km}}</p>
+      </ion-text>
+      <ion-text color="dark" *ngIf="!!car.service" class="ion-margin-bottom">
+        <p>Último Servicio: {{car.service.createdAt}}</p>
+      </ion-text>
+      <br />
+
+      <div class="ion-text-end">
+        <ion-button
+          color="tertiary"
+          (click)="car.addKm = true"
+          [disabled]="car.addKm"
+        >
+          <ion-icon slot="icon-only" src="assets/icon/road.svg"></ion-icon>
+        </ion-button>
+
+        <ion-button color="warning" (click)="editar(car)">
+          <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+        </ion-button>
+
+        <ion-button color="danger" (click)="eliminar(car.uid, car.photo)">
+          <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+        </ion-button>
+      </div>
+    </ion-card-content>
+
+    <ion-card-content [hidden]="!car.addKm">
+      <form (submit)="onSubmitKm(car, km.value)">
+        <ion-list>
+          <ion-item>
+            <ion-label position="stacked">Kilometraje Actual</ion-label>
+            <ion-input type="number" #km></ion-input>
+          </ion-item>
+        </ion-list>
+
+        <ion-button type="submit" class="ion-margin-top" color="tertiary">
+          Registrar Kilometros
+        </ion-button>
+
+        <ion-button
+          color="medium"
+          class="ion-margin-top"
+          (click)="car.addKm = false"
+        >
+          Cancelar
+        </ion-button>
+      </form>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

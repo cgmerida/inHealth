@@ -1,0 +1,29 @@
+.card {
+  background-color: var(--ion-color-secondary);
+  margin: -1px auto;
+
+  .header {
+    height: 150px;
+
+    .avatar {
+      width: 160px;
+      height: 160px;
+      position: relative;
+      margin: 0 auto;
+
+      img {
+        width: inherit;
+        display: block;
+        border-radius: 50%;
+        position: absolute;
+        bottom: -35px;
+        border: 5px solid #fff;
+        background-color: #fff;
+      }
+    }
+  }
+}
+
+.title {
+  padding-top: 40px;
+}

@@ -1,0 +1,95 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="secondary" class="ion-text-center">
+    <ion-buttons slot="start">
+      <ion-button color="dark" class="ion-invisible">Salir</ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="logOut();">Salir</ion-button>
+    </ion-buttons>
+    <ion-title color="light">Perfil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen="true" slot="fixed">
+  <div class="card">
+    <div class="header">
+      <div class="avatar">
+        <img *ngIf="user" [src]="user.photoURL" (error)="updateUrl()" />
+      </div>
+    </div>
+  </div>
+
+  <div class="title">
+    <h1 class="ion-text-center ion-margin">
+      {{user?.firstname ? user?.firstname + ' ' + user?.lastname :
+      user?.displayName | titlecase}}
+    </h1>
+  </div>
+  
+  <div class="ion-text-center">
+    <ion-text color="danger" *ngIf="!user?.tel">
+      Es necesario registrar su número de telefono.
+    </ion-text>
+  </div>
+
+  <ion-grid>
+    <ion-row class="ion-justify-content-start ion-margin">
+      <ion-button color="warning" (click)="update = true">
+        Editar Perfil
+      </ion-button>
+    </ion-row>
+  </ion-grid>
+
+  <form (submit)="onSubmit();" #form="ngForm" *ngIf="!!userEdit && update">
+    <ion-list lines="full">
+      <ion-list-header>
+        <ion-label>Datos del Usuario</ion-label>
+      </ion-list-header>
+
+      <ion-item>
+        <ion-label position="stacked">Nombre</ion-label>
+        <ion-input
+          type="text"
+          name="firstname"
+          [(ngModel)]="userEdit.firstname"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Apellido</ion-label>
+        <ion-input
+          type="text"
+          name="lastname"
+          [(ngModel)]="userEdit.lastname"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">
+          Telefono <ion-text color="danger">*</ion-text>
+        </ion-label>
+        <ion-input
+          required
+          type="number"
+          pattern="[0-9]{8}"
+          name="tel"
+          [(ngModel)]="userEdit.tel"
+        ></ion-input>
+      </ion-item>
+    </ion-list>
+    <ion-grid>
+      <ion-row class="ion-justify-content-center">
+        <ion-button color="danger" type="button" (click)="update = false;">
+          Cancelar
+        </ion-button>
+        <ion-button
+          color="secondary"
+          type="submit"
+          [disabled]="!form.form.valid"
+        >
+          Agregar información
+        </ion-button>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>

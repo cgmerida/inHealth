@@ -1,0 +1,150 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-img src="assets/img/logo/logo.svg" class="logo-header"></ion-img>
+    </ion-buttons>
+    <ion-title>Ordenes</ion-title>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-segment (ionChange)="segmentChanged($event)" value="all">
+      <ion-segment-button value="all">
+        <ion-label>Pendientes</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="completados">
+        <ion-label>Completados</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid fixed>
+    <div *ngFor="let order of orders | async; trackBy:trackBy">
+      <ion-card
+        *ngIf="order.status != 'Cancelado' && (order.status == 'Completado') == orderCompleted"
+      >
+        <ion-card-header>
+          <ion-card-title *ngIf="order.car;else noCar">
+            Servicio para {{order.car.brand}} {{order.car.line}}
+          </ion-card-title>
+          <ng-template #noCar>
+            <ion-card-title> Carro no registrado </ion-card-title>
+          </ng-template>
+
+          <ion-card-subtitle>
+            Fecha: {{ order.date.toDate() | date:'dd/MM/yyyy' }}
+          </ion-card-subtitle>
+          <ion-card-subtitle>
+            Estado:
+            <ion-text [color]="statusColor[order.status]">
+              {{ order.status }}
+            </ion-text>
+          </ion-card-subtitle>
+          <ion-rating
+            *ngIf="order.rating"
+            [rate]="order.rating | number:'1.0-0'"
+            size="small"
+            readonly="true"
+          ></ion-rating>
+        </ion-card-header>
+
+        <ion-card-content>
+          <ion-card-title>Cliente</ion-card-title>
+          <ion-list lines="none" class="small" *ngIf="order.owner">
+            <ion-item>
+              <ion-label>
+                <b>Nombre:</b> {{order.owner.firstname ? order.owner.firstname +
+                ' ' + order.owner.lastname : order.owner.displayName |
+                titlecase}}
+              </ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-label><b>Correo:</b> {{order.owner.email }}</ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-label><b>Telefono:</b> {{order.owner.tel }}</ion-label>
+            </ion-item>
+          </ion-list>
+          <ion-text *ngIf="!(!!order.owner)" color="danger">
+            El cliente ya no se encuentra registrado en la aplicación
+          </ion-text>
+        </ion-card-content>
+
+        <ion-card-content
+          *ngIf="order.progress < 100 && order.status == 'En Progreso'"
+        >
+          <ion-card-title>Progreso {{order.progress}}%</ion-card-title>
+          <ion-progress-bar
+            class="ion-margin-top"
+            color="tertiary"
+            [value]="order.progress/100"
+          ></ion-progress-bar>
+        </ion-card-content>
+
+        <ion-card-content *ngIf="order.services && order.services.length > 0">
+          <ion-card-title>Servicios</ion-card-title>
+          <ion-list lines="none">
+            <div *ngFor="let service of order.services">
+              <ion-item>
+                <ion-label>{{service.name}}</ion-label>
+                <ion-badge color="light" slot="end" *ngIf="service.price">
+                  {{service.price | currency:'GTQ':'symbol-narrow'}}
+                </ion-badge>
+              </ion-item>
+              <ion-item *ngIf="service.products && service.products.length > 0">
+                <ion-list>
+                  <ion-item *ngFor="let product of service.products">
+                    <ion-label>{{product.name}}</ion-label>
+                    <ion-badge color="light" slot="end" *ngIf="product.price">
+                      {{product.price | currency:'GTQ':'symbol-narrow'}}
+                    </ion-badge>
+                  </ion-item>
+                </ion-list>
+              </ion-item>
+            </div>
+          </ion-list>
+        </ion-card-content>
+
+        <ion-card-content>
+          <ion-card-title>
+            Total
+            <span>{{sumTotal(order)| currency:'GTQ':'symbol-narrow' }}</span>
+          </ion-card-title>
+        </ion-card-content>
+        <ion-footer *ngIf="order.status != 'Completado'">
+          <ion-row>
+            <ion-col class="ion-padding" *ngIf="order.status == 'Nuevo'">
+              <ion-button
+                expand="full"
+                color="primary"
+                (click)="orderStatus(order.uid, 'En Progreso');"
+              >
+                Recibir
+              </ion-button>
+            </ion-col>
+
+            <ion-col class="ion-padding" *ngIf="order.status == 'En Progreso'">
+              <ion-button
+                expand="full"
+                color="warning"
+                (click)="tracing(order)"
+              >
+                Seguimiento
+              </ion-button>
+            </ion-col>
+
+            <ion-col class="ion-padding">
+              <ion-button
+                expand="full"
+                color="danger"
+                (click)="orderStatus(order.uid, 'Cancelado');"
+              >
+                Cancelar
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-footer>
+      </ion-card>
+    </div>
+  </ion-grid>
+</ion-content>

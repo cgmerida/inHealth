@@ -1,0 +1,24 @@
+ion-card {
+  ion-card-content {
+    border-top: 1px solid #e0e0e0;
+    padding-top: 16px;
+  }
+}
+
+ion-card-subtitle {
+  font-weight: lighter;
+  font-size: 22px;
+}
+
+ion-list.small {
+  * {
+    --min-height: 25px;
+    --margin: 0;
+    --padding-start: 0;
+    --padding-end: 0;
+  }
+  ion-label {
+    margin: 0;
+    padding: 0;
+  }
+}

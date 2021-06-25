@@ -1,0 +1,47 @@
+<ion-content>
+  <ion-grid fixed>
+    <div class="contenido">
+      <img src="assets/img/logo/logo.svg" alt="logo" width="140" />
+
+      <h1 class="title">¿Olvidaste tu contraseña?</h1>
+
+      <ion-list lines="full" class="ion-no-margin ion-no-padding">
+        <ion-item color="secondary">
+          <ion-label position="stacked">
+            Correo <ion-text color="danger">*</ion-text>
+          </ion-label>
+          <ion-input required="true" type="email" #email></ion-input>
+        </ion-item>
+      </ion-list>
+
+      <p class="ion-text-center">
+        Enviaremos un correo para que puedas recuperar tu contraseña.
+      </p>
+
+      <p class="ion-text-center">Si no encuentras el correo busca en SPAM.</p>
+
+      <ion-grid>
+        <ion-row>
+          <ion-button
+            class="main"
+            color="light"
+            fill="outline"
+            size="large"
+            (click)="enviarCorreo(email.value)"
+          >
+            Enviar correo
+          </ion-button>
+        </ion-row>
+      </ion-grid>
+
+      <ion-text color="success" [hidden]="!enviado" class="ion-text-center">
+        <p>¡Correo enviado!</p>
+      </ion-text>
+
+      <div class="ion-text-center">
+        ¿No tienes cuenta?
+        <a routerLink="/register" routerDirection="forward">Registrate</a>
+      </div>
+    </div>
+  </ion-grid>
+</ion-content>

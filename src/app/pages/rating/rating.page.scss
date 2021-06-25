@@ -1,0 +1,33 @@
+ion-content {
+  --background: linear-gradient(
+    121deg,
+    var(--ion-color-primary) 38%,
+    var(--ion-color-secondary) 85%
+  );
+}
+
+ion-card {
+  margin-top: 25vh;
+}
+ion-slides {
+  height: 25vh;
+  ion-slide {
+    display: grid;
+    padding: 30px;
+  }
+}
+
+ion-progress-bar {
+  // height: 10px;
+  margin-bottom: 10px;
+}
+
+ion-card-title {
+  font-size: 26px;
+  font-weight: bolder;
+}
+h2 {
+  font-size: 20px;
+  font-weight: lighter;
+  color: black;
+}

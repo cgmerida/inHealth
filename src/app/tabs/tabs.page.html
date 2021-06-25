@@ -1,0 +1,41 @@
+<ion-tabs>
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="inicio">
+      <ion-icon name="home-outline"></ion-icon>
+    </ion-tab-button>
+
+    <ion-tab-button tab="servicios">
+      <ion-icon name="construct-outline"></ion-icon>
+    </ion-tab-button>
+
+    <ion-tab-button></ion-tab-button>
+
+    <ion-tab-button tab="gastos">
+      <ion-icon name="cash-outline"></ion-icon>
+    </ion-tab-button>
+
+    <ion-tab-button tab="perfil">
+      <ion-icon name="person-outline"></ion-icon>
+      <ion-badge color="danger" *ngIf="!user?.tel">*</ion-badge>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>
+
+<ion-fab horizontal="center" vertical="bottom" slot="fixed">
+  <ion-fab-button>
+    <ion-icon name="add-outline"></ion-icon>
+  </ion-fab-button>
+  <ion-fab-list side="top">
+    <ion-fab-button
+      color="dark"
+      routerDirection="forward"
+      routerLink="/app/cars"
+    >
+      <ion-icon name="car-sport-outline"></ion-icon>
+    </ion-fab-button>
+
+    <ion-fab-button color="dark" (click)="registrarOrden()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab-list>
+</ion-fab>

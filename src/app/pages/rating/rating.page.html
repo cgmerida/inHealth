@@ -1,0 +1,19 @@
+<ion-content class="ion-padding">
+  <ion-card>
+    <ion-card-content>
+      <ion-card-title class="ion-text-center">
+        Califica nuestro servicio
+      </ion-card-title>
+      <ion-slides (ionSlideDidChange)="slideChange();">
+        <ion-slide *ngFor="let question of questions | async; let i = index">
+          <h2>{{question}}</h2>
+
+          <ion-rating #rating (rateChange)="rateChange(i, question, rating.rate)"></ion-rating>
+        </ion-slide>
+      </ion-slides>
+      <ion-progress-bar color="primary" [value]="progress"></ion-progress-bar>
+      <ion-button [hidden]="endSurvey" expand="full" (click)="nextQuestion()" [disabled]="!completed">Continuar</ion-button>
+      <ion-button [hidden]="!endSurvey" expand="full" (click)="calificar()" [disabled]="!completed">Calificar</ion-button>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

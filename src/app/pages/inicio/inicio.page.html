@@ -1,0 +1,139 @@
+<ion-content padding>
+  <section class="ion-text-center">
+    <!-- <ion-icon name="person" class="font"></ion-icon> -->
+    <img src="assets/img/logo/logo-full.svg" alt="Logo Full" />
+    <h1 class="ion-no-margin bolder">Bienvenido</h1>
+    <div *ngIf="user | async as userData">
+      <h3 class="ion-no-margin lighter">
+        {{userData.firstname ? userData.firstname + ' ' + userData.lastname :
+        userData.displayName | titlecase}}
+      </h3>
+
+      <div class="ion-text-center">
+        <ion-text color="danger" *ngIf="!userData.tel">
+          Es necesario registrar su número de telefono.
+        </ion-text>
+      </div>
+    </div>
+  </section>
+
+  <ion-grid id="main-grid">
+    <ion-row>
+      <ion-col>
+        <ion-card class="ion-text-center ion-no-margin" color="tertiary">
+          <ion-card-header class="ion-no-padding ion-padding-vertical">
+            <ion-icon name="cash-sharp"></ion-icon>
+
+            <ion-spinner
+              name="crescent"
+              *ngIf="loading"
+              color="light"
+            ></ion-spinner>
+            <ion-card-title *ngIf="!loading">
+              {{totalExpenses| currency:'GTQ':'symbol-narrow'}}
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content class="ion-no-padding ion-padding-vertical">
+            Gastos Generales
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col>
+        <ion-card class="ion-text-center ion-no-margin" color="tertiary">
+          <ion-card-header class="ion-no-padding ion-padding-vertical">
+            <ion-icon name="build-sharp"></ion-icon>
+            <ion-spinner
+              name="crescent"
+              *ngIf="loading"
+              color="light"
+            ></ion-spinner>
+            <ion-card-title *ngIf="!loading">{{totalOrders}}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content class="ion-no-padding ion-padding-vertical">
+            Servicios Recibidos
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<!-- <ion-grid>
+  <ion-row class="ion-align-items-center">
+    <ion-col><h2>Productos</h2></ion-col>
+    <ion-col>
+      <ion-button size="small" fill="clear" color="dark">
+        Ver más
+      </ion-button>
+    </ion-col>
+    <ion-col></ion-col>
+  </ion-row>
+</ion-grid>
+
+<ion-spinner [hidden]="products"></ion-spinner>
+
+<ion-slides [options]="slideOpts">
+  <ion-slide *ngFor="let product of products">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>{{product.name}}</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        Precio: Q.{{ product.price }}
+      </ion-card-content>
+    </ion-card>
+  </ion-slide>
+</ion-slides>
+
+<ion-grid>
+  <ion-row class="ion-align-items-center">
+    <ion-col><h2>Servicios</h2></ion-col>
+    <ion-col>
+      <ion-button size="small" fill="clear" color="dark">
+        Ver más
+      </ion-button>
+    </ion-col>
+    <ion-col></ion-col>
+  </ion-row>
+</ion-grid>
+
+<ion-spinner [hidden]="services"></ion-spinner>
+
+<ion-slides [options]="slideOpts">
+  <ion-slide *ngFor="let service of services">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>{{service.name}}</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        Precio: Q.{{ service.price }}
+      </ion-card-content>
+    </ion-card>
+  </ion-slide>
+</ion-slides>
+
+<ion-grid>
+  <ion-row class="ion-align-items-center">
+    <ion-col><h2>Mis Carros</h2></ion-col>
+    <ion-col>
+      <ion-button size="small" fill="clear" color="dark">
+        Ver más
+      </ion-button>
+    </ion-col>
+    <ion-col></ion-col>
+  </ion-row>
+</ion-grid>
+
+<ion-spinner [hidden]="cars"></ion-spinner>
+
+<ion-slides [options]="slideOpts">
+  <ion-slide *ngFor="let car of cars | async">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>{{car.brand}} {{car.line}}</ion-card-title>
+      </ion-card-header>
+    </ion-card>
+  </ion-slide>
+</ion-slides> -->

@@ -1,0 +1,33 @@
+h1.title {
+  text-transform: uppercase;
+}
+
+div.contenido {
+  padding: 6vh 8.4vw 0 8.4vw;
+  max-height: 98vh;
+  color: white;
+  img {
+    display: block;
+    margin: 0 auto;
+    opacity: 0.7;
+  }
+}
+
+.error {
+  background: none;
+  color: var(--ion-color-danger);
+}
+
+ion-button.main {
+  margin-top: 3vh;
+  margin-left: auto;
+  margin-right: auto;
+  text-transform: uppercase;
+  height: 55px;
+  --border-radius: 0;
+}
+
+a {
+  color: var(--ion-color-secondary);
+  text-decoration: none;
+}

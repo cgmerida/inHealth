@@ -1,0 +1,112 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-img src="assets/img/logo/logo.svg" class="logo-header"></ion-img>
+    </ion-buttons>
+    <ion-title>Autolite</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid fixed>
+    <ion-list lines="full">
+      <ion-list-header>Calificaciones de nuestros usuarios</ion-list-header>
+      <ion-item *ngFor="let response of responses">
+        <ion-label class="ion-text-wrap">{{response.question}}</ion-label>
+        <ion-rating
+          [rate]="response.rating | number:'1.0-0'"
+          readonly="true"
+          slot="end"
+        ></ion-rating>
+      </ion-item>
+    </ion-list>
+
+    <ion-card class="ion-margin-bottom">
+      <ion-card-header class="ion-text-center">
+        <ion-card-title>Ordenes por status</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="chart-wrapper">
+          <ion-spinner name="crescent" *ngIf="!orderChartReady"></ion-spinner>
+          <canvas
+            *ngIf="orderChartReady"
+            baseChart
+            [options]="pieChartOptions"
+            [labels]="pieChartLabels"
+            [data]="pieChartData"
+            [chartType]="pieChartType"
+            [legend]="pieChartLegend"
+            [colors]="pieChartColors"
+          >
+          </canvas>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="ion-margin-bottom">
+      <ion-card-header class="ion-text-center">
+        <ion-card-title>Gastos Mensuales</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="chart-wrapper">
+          <ion-spinner name="crescent" *ngIf="!orderChartReady"></ion-spinner>
+          <canvas
+            baseChart
+            *ngIf="orderChartReady"
+            [options]="barChartOptions"
+            [chartType]="barChartType"
+            [data]="expensesChartData"
+            [labels]="expensesChartLabels"
+            [legend]="expensesChartLegend"
+            [colors]="expensesChartColors"
+          >
+          </canvas>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="ion-margin-bottom">
+      <ion-card-header class="ion-text-center">
+        <ion-card-title>Servicios</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="chart-wrapper">
+          <ion-spinner name="crescent" *ngIf="!orderChartReady"></ion-spinner>
+          <canvas
+            *ngIf="orderChartReady"
+            baseChart
+            [options]="barChartOptions"
+            [chartType]="barChartType"
+            [data]="servicesChartData"
+            [labels]="servicesChartLabels"
+            [legend]="servicesChartLegend"
+            [colors]="chartColors"
+          >
+          </canvas>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="ion-margin-bottom">
+      <ion-card-header class="ion-text-center">
+        <ion-card-title>Productos</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="chart-wrapper">
+          <ion-spinner name="crescent" *ngIf="!orderChartReady"></ion-spinner>
+          <canvas
+            *ngIf="orderChartReady"
+            baseChart
+            [options]="barChartOptions"
+            [chartType]="barChartType"
+            [data]="productsChartData"
+            [labels]="productsChartLabels"
+            [legend]="productsChartLegend"
+            [colors]="chartColors"
+          >
+          </canvas>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </ion-grid>
+</ion-content>

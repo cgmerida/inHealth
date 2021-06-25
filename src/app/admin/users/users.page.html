@@ -1,0 +1,118 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-img src="assets/img/logo/logo.svg" class="logo-header"></ion-img>
+    </ion-buttons>
+    <ion-title>Usuarios</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid fixed>
+    <ion-grid class="ion-margin-top ion-no-padding">
+      <ion-row class="ion-text-center">
+        <ion-col size="3">
+          <ion-icon name="close" color="danger"></ion-icon><br />
+          <ion-label>Sin Validar Correo</ion-label>
+        </ion-col>
+        <ion-col size="3">
+          <ion-icon name="lock-closed" color="danger"></ion-icon><br />
+          <ion-label>Usuario bloqueado</ion-label>
+        </ion-col>
+        <ion-col size="3">
+          <ion-icon name="checkmark" color="primary"></ion-icon><br />
+          <ion-label>Correo Validado </ion-label>
+        </ion-col>
+        <ion-col size="3">
+          <ion-icon name="checkmark-done" color="success"></ion-icon><br />
+          <ion-label>Usuario Admin</ion-label>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-list lines="none">
+      <ion-list-header>Gestión de Usuarios</ion-list-header>
+
+      <ion-item-sliding *ngFor="let user of users | async; trackBy:trackBy">
+        <ion-item-options side="start">
+          <ion-item-option
+            expandable
+            color="success"
+            *ngIf="!user.isAdmin"
+            (click)="addAdmin(user.uid);"
+          >
+            <ion-icon slot="icon-only" name="shield-checkmark"></ion-icon>
+          </ion-item-option>
+          <ion-item-option
+            expandable
+            color="danger"
+            *ngIf="user.isAdmin"
+            (click)="removeAdmin(user.uid);"
+          >
+            <ion-icon slot="icon-only" name="shield-checkmark"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+        <ion-item>
+          <ion-avatar slot="start">
+            <ion-img
+              [src]="user.photoURL || 
+          'https://ui-avatars.com/api/?size=200&background=079db6&color=fff&name=' + user.firstname + '+' + user.lastname || 
+          'https://southernplasticsurgery.com.au/wp-content/uploads/2013/10/user-placeholder.png'"
+            ></ion-img>
+          </ion-avatar>
+          <ion-label>
+            <h2>
+              {{user?.firstname ? user?.firstname + ' ' + user?.lastname :
+              user?.displayName | titlecase}}
+            </h2>
+            <p><b>Telefono:</b> {{user.tel}}</p>
+            <p><b>Correo:</b> {{user.email}}</p>
+          </ion-label>
+          <ion-icon
+            *ngIf="user.isAdmin"
+            name="checkmark-done"
+            slot="end"
+            color="success"
+          ></ion-icon>
+          <ion-icon
+            *ngIf="!user.isAdmin && user.emailVerified"
+            name="checkmark"
+            slot="end"
+            color="primary"
+          ></ion-icon>
+
+          <ion-icon
+            *ngIf="!user.isAdmin && !user.emailVerified"
+            name="close"
+            slot="end"
+            color="danger"
+          ></ion-icon>
+
+          <ion-icon
+            *ngIf="user.disabled"
+            name="lock-closed"
+            slot="end"
+            color="danger"
+          ></ion-icon>
+        </ion-item>
+        <ion-item-options side="end">
+          <ion-item-option
+            expandable
+            color="danger"
+            *ngIf="!user.disabled"
+            (click)="lockUser(user.uid);"
+          >
+            <ion-icon slot="icon-only" name="lock-closed"></ion-icon>
+          </ion-item-option>
+          <ion-item-option
+            expandable
+            color="success"
+            *ngIf="user.disabled"
+            (click)="unlockUser(user.uid);"
+          >
+            <ion-icon slot="icon-only" name="lock-open"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
+  </ion-grid>
+</ion-content>
