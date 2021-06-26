@@ -19,8 +19,8 @@ export class AppComponent {
 
   initializeApp() {
     if (this.platform.is('hybrid')) {
-      StatusBar.setBackgroundColor({ color: '#02023e' });
-      StatusBar.setStyle({ style: StatusBarStyle.Dark });
+      StatusBar.setBackgroundColor({ color: '#EFEFEF' });
+      StatusBar.setStyle({ style: StatusBarStyle.Light });
 
       this.platform.ready()
         .then(async () => {

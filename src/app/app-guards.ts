@@ -14,4 +14,3 @@ export const redirectOrVerifyEmail = () =>
     map((user: User) => {
         return user ? (user.emailVerified ? true : ['/verify-email']) : ['/login'];
     });
-

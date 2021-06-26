@@ -1,15 +1,18 @@
 export class User {
   uid: string;
-  firstname?: string;
-  lastname?: string;
+  firstname: string;
+  lastname: string;
+  dpi: string;
+  pn: string;
   email: string;
+  emailVerified: boolean;
   tel?: number;
-  displayName?: string;
-  photoURL?: string;
+  medical_records?: [string];
   isAdmin?: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
+
 
 // export class User implements IUser {
 

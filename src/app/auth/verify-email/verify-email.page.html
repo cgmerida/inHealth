@@ -1,15 +1,19 @@
 <ion-content color="primary">
   <ion-grid fixed>
     <div class="contenido">
-      <img src="assets/img/logo/logo-blanco.svg" alt="logo" width="100" />
+      <img
+        src="assets/img/logo/logo-blanco.svg"
+        alt="logo"
+        class="logo"
+      />
 
       <h1 class="title">Verificar Correo</h1>
       <p>
-        Por favor revisa tu correo y dale click en el link, para verificar tu
+        Por favor revisa tu correo y dale clic en el enlace para verificar tu
         correo.
       </p>
-      <ion-grid>
-        <ion-row>
+      <ion-grid class="ion-align-items-center" style="height: 60vh">
+        <ion-row style="height: 40%" class="ion-align-items-center">
           <ion-button
             class="main"
             color="light"
@@ -21,20 +25,23 @@
             Reenviar correo
           </ion-button>
         </ion-row>
-        <ion-row>
-          <ion-text color="light" class="ion-text-center ion-margin-top">
+        <ion-row class="ion-align-items-center">
+          <ion-text class="ion-text-center ion-margin-top">
             Revise su carpeta de SPAM. Si no recibe el correo de validación, por
             favor click en Reenviar Correo.
           </ion-text>
         </ion-row>
+        <ion-row class="ion-justify-content-center ion-align-items-center" style="margin-top: 30%;">
+          <ion-text color="success" class="ion-text-center ion-margin-top">
+            ¿Ya validaste tu correo?
+          </ion-text>
+        </ion-row>
+        <ion-row class="ion-justify-content-center ion-align-items-center">
+          <ion-button color="medium" (click)="enviarInicio();">
+            Ve al inicio
+          </ion-button>
+        </ion-row>
       </ion-grid>
-
-      <div class="ion-text-center ion-margin-top">
-        ¿Ya validaste tu correo? <br />
-        <ion-button color="secondary" (click)="enviarInicio();"
-          >Ve al inicio</ion-button
-        >
-      </div>
     </div>
   </ion-grid>
 </ion-content>

@@ -3,9 +3,6 @@ import { AuthService } from 'src/app/services/auth.service';
 import { AlertController, LoadingController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
-import { Plugins, StatusBarStyle } from '@capacitor/core';
-
-const { StatusBar } = Plugins;
 
 @Component({
   selector: 'app-verify-email',
@@ -20,29 +17,15 @@ export class VerifyEmailPage {
     private loadingController: LoadingController,
     private router: Router,
     private userService: UserService,
-    private platform: Platform,
   ) {
   }
 
-
-  ionViewDidEnter() {
-    if (this.platform.is('hybrid')) {
-      StatusBar.setBackgroundColor({ color: '#079db6' });
-      StatusBar.setStyle({ style: StatusBarStyle.Dark });
-    }
-  }
-
   async enviarInicio() {
-
     let loading = await this.loadingController.create()
-
     loading.present();
 
     let fireUser = await this.authService.getAuthUser();
-
     await fireUser.reload();
-
-
     await loading.dismiss();
 
 
@@ -58,13 +41,10 @@ export class VerifyEmailPage {
   }
 
   async enviarCorreo() {
-
     let loading = await this.loadingController.create()
-
     loading.present();
 
     await this.authService.SendVerificationMail();
-
     await loading.dismiss();
   }
 

@@ -1,19 +1,20 @@
 <ion-content>
   <ion-grid fixed>
     <div class="contenido">
-      <img src="assets/img/logo/logo.svg" alt="logo" width="140" />
+      <img src="/assets/img/logo/logo.svg" alt="logo" class="logo" />
 
       <h1 class="title">Login</h1>
 
       <ion-list lines="full" class="ion-no-margin ion-no-padding">
-        <ion-item color="secondary">
-          <ion-label position="stacked"
-            >Correo <ion-text color="danger">*</ion-text></ion-label
-          >
+        <ion-item>
+          <ion-label position="stacked">
+            Correo
+            <ion-text color="danger">*</ion-text>
+          </ion-label>
           <ion-input required #email type="email"></ion-input>
         </ion-item>
 
-        <ion-item color="secondary">
+        <ion-item>
           <ion-label position="stacked"
             >Contraseña <ion-text color="danger">*</ion-text></ion-label
           >
@@ -22,9 +23,8 @@
       </ion-list>
 
       <ion-grid>
-        <ion-row class="ion-justify-content-end">
+        <ion-row class="ion-justify-content-end ion-margin-bottom">
           <ion-button
-            color="light"
             fill="clear"
             size="small"
             routerLink="/login/forgot"
@@ -33,10 +33,10 @@
             ¿Olvidaste tu contraseña?
           </ion-button>
         </ion-row>
-        <ion-row>
+        <ion-row style="height: 30vh">
           <ion-button
-            class="main"
-            color="light"
+            class="main ion-margin-top"
+            color="dark"
             fill="outline"
             size="large"
             (click)="logIn(email.value, password.value)"
@@ -44,46 +44,17 @@
             Login
           </ion-button>
         </ion-row>
-      </ion-grid>
-
-      <ion-grid>
-        <ion-row class="ion-justify-content-center ion-margin-bottom">
-          <ion-col size="2" class="ion-justify-content-center">
-            <ion-img
-              src="assets/img/redes/fb.svg"
-              alt="Facebook"
-              (click)="authFb();"
-            ></ion-img>
-          </ion-col>
-
-          <ion-col size="2" class="ion-justify-content-center">
-            <ion-img src="assets/img/redes/tw.svg" alt="Twitter"></ion-img>
-          </ion-col>
-
-          <ion-col size="2" class="hide-md ion-justify-content-center">
-            <ion-img src="assets/img/redes/apple.png" alt="Apple"></ion-img>
-          </ion-col>
-
-          <ion-col size="2" class="hide-ios ion-justify-content-center">
-            <ion-img
-              src="assets/img/redes/google-c.svg"
-              alt="Google"
-              (click)="authGoogle();"
-            ></ion-img>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-
-      <ion-grid class="ion-margin-top">
         <ion-row class="ion-justify-content-center ion-margin-bottom">
           <div class="ion-text-center">
             ¿No tienes cuenta?
-            <a routerLink="/register" routerDirection="forward"> Registrate </a>
+            <a class="dark" routerLink="/register" routerDirection="forward">
+              Registrate
+            </a>
           </div>
         </ion-row>
 
         <ion-row class="ion-justify-content-center">
-          <ion-button color="light" fill="clear" size="small">
+          <ion-button fill="clear" size="small">
             Terminos y Condiciones
           </ion-button>
         </ion-row>

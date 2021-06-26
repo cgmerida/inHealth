@@ -25,6 +25,48 @@
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 
+img.logo {
+  display: block;
+  margin: 0 auto;
+  opacity: 0.7;
+  width: 90%;
+}
+
+
+span.error {
+  background: none;
+  color: var(--ion-color-danger);
+}
+
+h1.title {
+  text-transform: uppercase !important;
+  margin-top: 50px;
+  margin-bottom: 20px;
+}
+
+
+a.light {
+  color: var(--ion-color-light);
+  font-weight: bolder;
+  text-decoration: none;
+}
+
+a.dark {
+  color: var(--ion-color-dark);
+  font-weight: bolder;
+  text-decoration: none;
+}
+
+ion-button.main {
+  margin-top: 3vh;
+  margin-left: auto;
+  margin-right: auto;
+  text-transform: uppercase;
+  width: 60vw;
+  height: 55px;
+  --border-radius: 0;
+}
+
 .ion-no-radius {
   border-radius: 0;
 }
@@ -44,4 +86,62 @@ ion-img.logo-header {
 
 ion-select::part(text) {
   white-space: normal !important;
+}
+
+.md .hide-md {
+  display: none;
+}
+
+.ios .hide-ios {
+  display: none;
+}
+
+$grid-breakpoints: (
+  xs: 0,
+  // Phone (0px - 575px)
+  sm: 576px,
+  // Phablet (576px - 767px)
+  md: 768px,
+  // Tablet vertical (768px - 991px)
+  lg: 992px // Tablet horizontal, Desktop (992px and above),,,,,,,,
+);
+
+$grid-max-widths: (
+  lg: 992px,
+);
+
+// Desktop
+ion-header .toolbar {
+  margin: auto;
+}
+
+@media (min-width: map-get($grid-breakpoints, lg)) {
+  ion-navbar.toolbar,
+  ion-header .toolbar[fixed],
+  ion-footer .toolbar[fixed],
+  ion-tabs .tabbar {
+    margin: 0;
+    padding-right: calc((100% - #{map-get($grid-max-widths, lg)}) / 2);
+    padding-left: calc((100% - #{map-get($grid-max-widths, lg)}) / 2);
+  }
+}
+
+@media (max-width: map-get($grid-breakpoints, md)) {
+  .my-modal {
+    .modal-wrapper {
+      border-radius: 10px 10px 0px 0px;
+      top: 20%;
+      position: absolute;
+      height: 80%;
+    }
+  }
+}
+.alert-tappable.alert-radio {
+  height: auto;
+  contain: content;
+}
+
+.alert-radio-label.sc-ion-alert-md,
+.alert-radio-label.sc-ion-alert-ios {
+  white-space: normal;
 }

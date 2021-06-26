@@ -12,44 +12,44 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () => import('./welcome/welcome.module').then(m => m.WelcomePageModule),
-    canActivate: [FirstGuard],
+    ////canActivate: [FirstGuard],
   },
   {
     path: 'login',
     loadChildren: () => import('./auth/login/login.module').then(m => m.LoginPageModule),
-    ...canActivate(redirectLoggedInToInicio)
+    //...canActivate(redirectLoggedInToInicio)
   },
   {
     path: 'login/forgot',
     loadChildren: () => import('./auth/forgot/forgot.module').then(m => m.ForgotPageModule),
-    ...canActivate(redirectLoggedInToInicio)
+    //...canActivate(redirectLoggedInToInicio)
   },
   {
     path: 'register',
     loadChildren: () => import('./auth/register/register.module').then(m => m.RegisterPageModule),
-    ...canActivate(redirectLoggedInToInicio)
+    //...canActivate(redirectLoggedInToInicio)
   },
   {
     path: 'verify-email',
     loadChildren: () => import('./auth/verify-email/verify-email.module').then(m => m.VerifyEmailPageModule),
-    ...canActivate(redirectVerified)
+    //...canActivate(redirectVerified)
   },
   {
     path: 'app',
     loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule),
-    canActivate: [AngularFireAuthGuard, AdminRedirectGuard],
-    data: { authGuardPipe: redirectOrVerifyEmail }
+    //canActivate: [AngularFireAuthGuard, AdminRedirectGuard],
+    //data: { authGuardPipe: redirectOrVerifyEmail }
   },
   {
     path: 'rating/:orderId',
     loadChildren: () => import('./pages/rating/rating.module').then(m => m.RatingPageModule),
-    ...canActivate(redirectOrVerifyEmail)
+    //...canActivate(redirectOrVerifyEmail)
   },
   {
     path: 'admin',
     loadChildren: () => import('./admin-tabs/admin-tabs.module').then(m => m.AdminTabsPageModule),
-    canActivate: [AngularFireAuthGuard, AdminGuard],
-    data: { authGuardPipe: redirectOrVerifyEmail }
+    //canActivate: [AngularFireAuthGuard, AdminGuard],
+    //data: { authGuardPipe: redirectOrVerifyEmail }
   },
   {
     path: '404',

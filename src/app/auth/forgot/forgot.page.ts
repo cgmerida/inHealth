@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -11,10 +11,7 @@ export class ForgotPage {
   enviado: boolean = false;
 
   constructor(private authService: AuthService) { }
-
-  ngOnInit() {
-  }
-
+  
   enviarCorreo(email) {
     if (!!email) {
       this.authService.PasswordRecover(email);
