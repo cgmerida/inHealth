@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from "@angular/router";
 import { AuthService } from "../../services/auth.service";
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -11,7 +11,7 @@ import { ErrorService } from 'src/app/services/error.service';
   templateUrl: './register.page.html',
   styleUrls: ['./register.page.scss'],
 })
-export class RegisterPage implements OnInit {
+export class RegisterPage {
 
   registerForm: FormGroup;
   isSubmitted = false;
@@ -29,16 +29,15 @@ export class RegisterPage implements OnInit {
     this.registerForm = this.formBuilder.group({
       firstname: [null, Validators.required],
       lastname: [null, Validators.required],
-      dpi: [null, Validators.pattern('^[0-9]{4}\\s?[0-9]{5}\\s?[0-9]{4}$')],
+      docType: ['dpi', Validators.required],
+      dpi: [null, [Validators.required, Validators.pattern('^[0-9]{4}\\s?[0-9]{5}\\s?[0-9]{4}$')]],
       pn: [null, Validators.pattern('^[0-9]{13}$')],
       email: [null, [Validators.required, Validators.email]],
-      tel: [null, [Validators.required, Validators.pattern('^[0-9]{8}$')]],
+      tel: [null, [Validators.pattern('^[0-9]{8}$')]],
       password: [null, [Validators.required, Validators.minLength(8)]],
       confirmpassword: [null, [Validators.required, Validators.minLength(8)]]
     });
   }
-
-  ngOnInit() { }
 
   get errorControl() {
     return this.registerForm.controls;
@@ -64,14 +63,16 @@ export class RegisterPage implements OnInit {
 
     let user = this.registerForm.value;
 
-    if (user.dpi)
+    if (user.dpi) {
       user.dpi = user.dpi.replace(/\s/gm, '');
+    }
+    user = this.clean(user);
 
     try {
       await this.authService.RegisterUser(user);
       await this.router.navigate(['verify-email']);
-
     } catch (err) {
+      console.error(err);
       await this.presentAlert(this.errors.printErrorByCode(err.code));
     } finally {
       await loading.dismiss();
@@ -89,6 +90,28 @@ export class RegisterPage implements OnInit {
     });
 
     await alert.present();
+  }
+
+  toggle() {
+    console.log('entro');
+    if (this.registerForm.get('docType').value === 'dpi') {
+      this.registerForm.get('dpi').setValidators([Validators.required, Validators.pattern('^[0-9]{4}\\s?[0-9]{5}\\s?[0-9]{4}$')]);
+      this.registerForm.get('pn').setValidators(null);
+    } else {
+      this.registerForm.get('pn').setValidators([Validators.required, Validators.pattern('^[0-9]{13}$')]);
+      this.registerForm.get('dpi').setValidators(null);
+    }
+    this.registerForm.get("dpi").updateValueAndValidity();
+    this.registerForm.get("pn").updateValueAndValidity();
+  }
+
+  clean(obj) {
+    for (let propName in obj) {
+      if (obj[propName] === null || obj[propName] === undefined) {
+        delete obj[propName];
+      }
+    }
+    return obj
   }
 
 }

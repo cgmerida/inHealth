@@ -2,3 +2,11 @@ div.contenido {
   padding: 3vh 8.4vw 0 8.4vw;
   max-height: 98vh;
 }
+
+ion-item {
+  --padding-start: 0;
+
+  ion-label {
+    text-transform: uppercase;
+  }
+}

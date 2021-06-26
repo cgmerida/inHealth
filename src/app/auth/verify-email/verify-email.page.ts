@@ -25,7 +25,6 @@ export class VerifyEmailPage {
     loading.present();
 
     let fireUser = await this.authService.getAuthUser();
-    await fireUser.reload();
     await loading.dismiss();
 
 
@@ -35,9 +34,12 @@ export class VerifyEmailPage {
         emailVerified: fireUser.emailVerified
       })
       this.router.navigate(['/app/inicio']);
-    } else {
+    } else if (fireUser && !fireUser.emailVerified) {
+      await fireUser.reload();
       this.presentAlert('No has verificado tu correo');
-    }
+    } else
+      this.presentAlert('Las credenciales ya no son válidas');
+      this.router.navigate(['/login']);
   }
 
   async enviarCorreo() {
@@ -52,7 +54,7 @@ export class VerifyEmailPage {
     const alert = await this.alertController.create({
       // cssClass: 'my-custom-class',
       header: 'Error',
-      subHeader: 'Problema válidando correo',
+      subHeader: 'Problema validando correo',
       message: msg,
       buttons: ['OK']
     });

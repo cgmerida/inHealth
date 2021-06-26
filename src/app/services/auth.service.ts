@@ -54,8 +54,10 @@ export class AuthService {
 
   // Register user with email/password
   async RegisterUser(userData) {
-    let authUser: fireUser = await this.fireAuth.createUserWithEmailAndPassword(userData.email, userData.password);
+    let authUser: fireUser = (await this.fireAuth.createUserWithEmailAndPassword(userData.email, userData.password)).user;
 
+    console.log(authUser);
+    
     delete userData.password;
     delete userData.confirmpassword;
 
@@ -66,6 +68,8 @@ export class AuthService {
       createdAt: new Date(),
       updatedAt: new Date()
     };
+
+    console.log(user);
 
     await this.userService.addUser(user);
     await this.SendVerificationMail();
@@ -103,6 +107,7 @@ export class AuthService {
           this.redirectAuth();
         });
       }).catch((err) => {
+        console.error(err);
         this.presentAlert('Error', 'Problema iniciando sesión',
           this.errors.printErrorByCode(err));
       })

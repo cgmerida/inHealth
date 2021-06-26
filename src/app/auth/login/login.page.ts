@@ -18,7 +18,6 @@ export class LoginPage {
 
 
   async logIn(email, password) {
-
     let loading = await this.loadingController.create();
     await loading.present();
 

@@ -47,7 +47,7 @@
             <ion-label position="stacked">
               Documento <ion-text color="danger">*</ion-text>
             </ion-label>
-            <ion-select placeholder="Seleccione" #doc value="dpi">
+            <ion-select placeholder="Seleccione" #doc formControlName="docType" (ionChange)="toggle()">
               <ion-select-option value="dpi">DPI</ion-select-option>
               <ion-select-option value="pn">
                 Partida de Nacimiento
@@ -63,6 +63,20 @@
             </ion-item>
           </div>
 
+          <span
+            class="error"
+            *ngIf="isSubmitted && errorControl.dpi.errors?.required"
+          >
+            Su DPI es necesario.
+          </span>
+          
+          <span
+            class="error"
+            *ngIf="isSubmitted && errorControl.dpi.errors?.pattern"
+          >
+            El DPI ingresado no es valido.
+          </span>
+          
           <div *ngIf="doc.value == 'pn'">
             <ion-item color="primary">
               <ion-label position="stacked">
@@ -71,6 +85,19 @@
               <ion-input formControlName="pn"></ion-input>
             </ion-item>
           </div>
+          <span
+            class="error"
+            *ngIf="isSubmitted && errorControl.pn.errors?.required"
+          >
+            Su Partida de nacimiento es necesario.
+          </span>
+          
+          <span
+            class="error"
+            *ngIf="isSubmitted && errorControl.pn.errors?.pattern"
+          >
+            La partida de nacimiento ingresada no es valida.
+          </span>
 
           <ion-item color="primary">
             <ion-label position="stacked">
@@ -91,8 +118,8 @@
           </span>
 
           <ion-item color="primary">
-            <ion-label position="stacked"> Telefono </ion-label>
-            <ion-input type="text" formControlName="tel"></ion-input>
+            <ion-label position="stacked">Telefono</ion-label>
+            <ion-input formControlName="tel"></ion-input>
           </ion-item>
 
           <span
