@@ -11,17 +11,22 @@
     <ion-list class="ion-no-margin ion-margin-horizontal ion-no-padding">
       <ion-item>
         <ion-label position="floating">Clinica</ion-label>
-        <ion-select formControlName="clinic" (ionChange)="addSpecialties($event.target.value)">
-          <ion-select-option *ngFor="let clinic of clinics | async" [value]="clinic"
-            >{{ clinic.name }}</ion-select-option
-          >
+        <ion-select
+          [compareWith]="compareFn"
+          formControlName="clinic"
+          (ionChange)="addSpecialties($event.target.value)"
+        >
+          <ion-select-option *ngFor="let clinic of clinics | async" [value]="clinic">
+            {{ clinic.name }}
+          </ion-select-option>
         </ion-select>
       </ion-item>
 
       <ion-text
         color="danger"
         *ngIf="
-          (appointmentForm.get('clinic').touched || appointmentForm.get('clinic').dirty) &&
+          (appointmentForm.get('clinic').touched ||
+            appointmentForm.get('clinic').dirty) &&
           errorControl.clinic.errors?.required
         "
       >
@@ -63,7 +68,8 @@
       <ion-text
         color="danger"
         *ngIf="
-          (appointmentForm.get('date').touched || appointmentForm.get('date').dirty) &&
+          (appointmentForm.get('date').touched ||
+            appointmentForm.get('date').dirty) &&
           errorControl.date.errors?.required
         "
       >

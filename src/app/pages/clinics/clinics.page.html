@@ -1,0 +1,40 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar translucent class="ion-text-center" color="light">
+    <ion-title>Clinicas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card *ngFor="let clinic of clinics | async" color="light">
+    <ion-img [src]="clinic.photo"></ion-img>
+    <ion-card-header>
+      <ion-card-title>{{clinic.name }}</ion-card-title>
+      <ion-card-subtitle>
+        <ion-text> <b>Dirección: </b>{{ clinic.dir }}</ion-text>
+      </ion-card-subtitle>
+      <ion-card-subtitle>
+        <ion-text><b>Horarios: </b>{{ clinic.schedule }}</ion-text>
+      </ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-card-title>Especialidades</ion-card-title>
+      <ion-list lines="none">
+        <ion-item *ngFor="let specialty of clinic.specialties" color="light">
+          {{specialty.name}}<br />
+          {{specialty.doc}}
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+
+    <ion-footer>
+      <ion-row>
+        <ion-col class="ion-padding">
+          <ion-button expand="full" color="primary" (click)="agendarCita(clinic)">
+            Agendar Cita
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-footer>
+  </ion-card>
+</ion-content>

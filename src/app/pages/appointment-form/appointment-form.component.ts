@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ModalController, LoadingController, AlertController } from '@ionic/angular';
 
@@ -23,6 +23,9 @@ export class AppointmentFormComponent implements OnInit {
 
   clicked: boolean;
 
+  // Data passed in by componentProps
+  @Input() selectedClinic: Clinic;
+
   constructor(
     private formBuilder: FormBuilder,
     private modalController: ModalController,
@@ -30,16 +33,21 @@ export class AppointmentFormComponent implements OnInit {
     private alertCtl: AlertController,
     private clinicService: ClinicService,
     private appointmentService: AppointmentService) {
-
-    this.appointmentForm = this.formBuilder.group({
-      clinic: [null, Validators.required],
-      specialty: [null, Validators.required],
-      date: [null, Validators.required],
-    });
   }
 
   ngOnInit() {
     this.clinics = this.clinicService.getClinics();
+
+    this.appointmentForm = this.formBuilder.group({
+      clinic: [this.selectedClinic, Validators.required],
+      specialty: [null, Validators.required],
+      date: [null, Validators.required],
+    });
+
+    if (this.selectedClinic)
+      this.addSpecialties(this.selectedClinic);
+
+    console.log(this.appointmentForm.value);
   }
 
   addSpecialties(c: Clinic) {
@@ -49,7 +57,6 @@ export class AppointmentFormComponent implements OnInit {
   get errorControl() {
     return this.appointmentForm.controls;
   }
-
 
   onSubmit() {
     this.clicked = true;
@@ -86,8 +93,6 @@ export class AppointmentFormComponent implements OnInit {
       });
   }
 
-
-
   async presentAlert(hdr, shdr, msg) {
     const alert = await this.alertCtl.create({
       header: hdr,
@@ -99,12 +104,12 @@ export class AppointmentFormComponent implements OnInit {
     await alert.present();
   }
 
-
-
-
   dismiss() {
     this.modalController.dismiss();
   }
 
+  compareFn(e1: Clinic, e2: Clinic): boolean {
+    return e1 && e2 ? e1.uid == e2.uid : e1 == e2;
+  }
 
 }

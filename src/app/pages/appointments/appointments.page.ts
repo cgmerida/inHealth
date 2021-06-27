@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
 import { AlertController, Platform } from '@ionic/angular';
-import { Subscription } from 'rxjs';
 import { Appointment } from 'src/app/models/app/appointment';
 import { AppointmentService } from 'src/app/services/app/appointment.service';
 
 //native
 import { FileOpener } from '@ionic-native/file-opener/ngx';
-import { HTTP } from '@ionic-native/http/ngx';
 import { HttpClient } from '@angular/common/http';
 import { Filesystem, FilesystemDirectory } from '@capacitor/core';
 

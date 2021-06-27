@@ -13,7 +13,11 @@ const routes: Routes = [
       },
       {
         path: 'appointments',
-        loadChildren: () => import('../pages/appointments/appointments.module').then( m => m.AppointmentsPageModule)
+        loadChildren: () => import('../pages/appointments/appointments.module').then(m => m.AppointmentsPageModule)
+      },
+      {
+        path: 'clinics',
+        loadChildren: () => import('../pages/clinics/clinics.module').then(m => m.ClinicsPageModule)
       },
       {
         path: 'perfil',
