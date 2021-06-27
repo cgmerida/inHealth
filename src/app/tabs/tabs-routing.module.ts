@@ -16,10 +16,6 @@ const routes: Routes = [
         loadChildren: () => import('../pages/appointments/appointments.module').then( m => m.AppointmentsPageModule)
       },
       {
-        path: 'gastos',
-        loadChildren: () => import('../pages/expenses/expenses.module').then(m => m.ExpensesPageModule)
-      },
-      {
         path: 'perfil',
         loadChildren: () => import('../pages/profile/profile.module').then(m => m.ProfilePageModule)
       },

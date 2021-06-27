@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { FirstGuard } from './guards/first.guard';
 import { AdminGuard } from './guards/admin.guard';
-import { AdminRedirectGuard } from './guards/adminRedirect.guard';
 
 import { canActivate, AngularFireAuthGuard } from '@angular/fire/auth-guard';
 import { redirectLoggedInToInicio, redirectOrVerifyEmail, redirectVerified } from './app-guards';
@@ -37,13 +36,7 @@ const routes: Routes = [
   {
     path: 'app',
     loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule),
-    canActivate: [AngularFireAuthGuard, AdminRedirectGuard],
     data: { authGuardPipe: redirectOrVerifyEmail }
-  },
-  {
-    path: 'rating/:orderId',
-    loadChildren: () => import('./pages/rating/rating.module').then(m => m.RatingPageModule),
-    ...canActivate(redirectOrVerifyEmail)
   },
   {
     path: 'admin',

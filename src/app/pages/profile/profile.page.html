@@ -1,5 +1,5 @@
 <ion-header class="ion-no-border">
-  <ion-toolbar color="secondary" class="ion-text-center">
+  <ion-toolbar color="primary" class="ion-text-center">
     <ion-buttons slot="start">
       <ion-button color="dark" class="ion-invisible">Salir</ion-button>
     </ion-buttons>
@@ -25,18 +25,19 @@
       user?.displayName | titlecase}}
     </h1>
   </div>
-  
-  <div class="ion-text-center">
-    <ion-text color="danger" *ngIf="!user?.tel">
-      Es necesario registrar su número de telefono.
-    </ion-text>
-  </div>
 
   <ion-grid>
-    <ion-row class="ion-justify-content-start ion-margin">
-      <ion-button color="warning" (click)="update = true">
-        Editar Perfil
-      </ion-button>
+    <ion-row>
+      <ion-col size="6">
+        <ion-button color="warning" (click)="update = true">
+          Editar Perfil
+        </ion-button>
+      </ion-col>
+      <ion-col size="6">
+        <ion-button color="primary" (click)="addRecord()">
+          Agregar Historial
+        </ion-button>
+      </ion-col>
     </ion-row>
   </ion-grid>
 
@@ -92,4 +93,29 @@
       </ion-row>
     </ion-grid>
   </form>
+
+  <ion-list lines="full">
+    <ion-list-header>
+      <ion-label><h1>Historial Médico</h1></ion-label>
+    </ion-list-header>
+    <ion-item *ngFor="let record of records | async; trackBy:trackBy">
+      <ion-icon name="ellipse" slot="start" color="primary"></ion-icon>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="10" class="ion-text-wrap ion-align-self-center">{{record.name}}</ion-col>
+          <ion-col size="2">
+            <ion-button
+              expand="full"
+              color="success"
+              download="{{record.name}}"
+              href="{{record.url}}"
+              target="_blank"
+            >
+              <ion-icon slot="icon-only" name="cloud-download"></ion-icon>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </ion-list>
 </ion-content>

@@ -10,10 +10,7 @@ import { take } from 'rxjs/operators';
   templateUrl: './inicio.page.html',
   styleUrls: ['./inicio.page.scss'],
 })
-export class InicioPage implements OnInit, OnDestroy {
-
-
-  private orderSub: Subscription;
+export class InicioPage implements OnInit {
 
   user: Observable<User>;
 
@@ -22,7 +19,6 @@ export class InicioPage implements OnInit, OnDestroy {
   totalExpenses = 0;
 
   constructor(
-    private orderServcice: OrderService,
     private userService: UserService,
   ) {
     this.user = this.userService.getAuthUser();
@@ -50,10 +46,6 @@ export class InicioPage implements OnInit, OnDestroy {
 
     //   this.loading = false;
     // });
-  }
-
-  ngOnDestroy() {
-    this.orderSub.unsubscribe();
   }
 
 }

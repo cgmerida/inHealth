@@ -3,12 +3,12 @@ import { AlertController, Platform } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { Appointment } from 'src/app/models/app/appointment';
 import { AppointmentService } from 'src/app/services/app/appointment.service';
-import { Directory } from '@capacitor/filesystem';
 
 //native
 import { FileOpener } from '@ionic-native/file-opener/ngx';
-import { Http, HttpDownloadFileResult, HttpResponse, } from '@capacitor-community/http';
-
+import { HTTP } from '@ionic-native/http/ngx';
+import { HttpClient } from '@angular/common/http';
+import { Filesystem, FilesystemDirectory } from '@capacitor/core';
 
 
 @Component({
@@ -17,8 +17,6 @@ import { Http, HttpDownloadFileResult, HttpResponse, } from '@capacitor-communit
   styleUrls: ['./appointments.page.scss'],
 })
 export class AppointmentsPage {
-
-  appointmentSub: Subscription;
   appointments: Appointment[];
 
   statusColor = { "Agendada": "dark", "Esperando resultados": "tertiary", "Completada": "success", "Cancelada": "danger" };
@@ -29,17 +27,12 @@ export class AppointmentsPage {
     private appointmentService: AppointmentService,
     private fileOpener: FileOpener,
     private alertController: AlertController,
-    public platform: Platform
-  ) { }
-
-  ionViewWillEnter() {
-    this.appointmentSub = this.appointmentService.getAppointmentsByUser().subscribe(app => {
+    public platform: Platform,
+    private http: HttpClient
+  ) {
+    this.appointmentService.getAppointmentsByUser().subscribe(app => {
       this.appointments = app;
     });
-  }
-
-  ionViewWillLeave() {
-    this.appointmentSub.unsubscribe();
   }
 
   get isMobile() {
@@ -47,23 +40,51 @@ export class AppointmentsPage {
   }
 
   downloadFile = async (url: string) => {
+    console.log(`entro a descargas`);
     let file = this.getFileName(url);
     const name = file[0];
     const mimeType = this.getMimeType(name);
 
-    const options = {
-      url: url,
-      filePath: name,
-      fileDirectory: Directory.Documents,
-    };
+    this.http.get(url, {
+      responseType: 'blob',
+    })
+      .subscribe(async (resp) => {
+        console.log("resp");
+        console.log(resp);
+        const base64Data = await this.convertBlobToBase64(resp) as string;
 
-    // Writes to local filesystem
-    const savedFile: HttpDownloadFileResult = await Http.downloadFile(options);
-    const path = savedFile.path;
+        let savedFile = await Filesystem.writeFile({
+          path: name,
+          data: base64Data,
+          directory: FilesystemDirectory.Documents
+        });
+        
+        console.log("img saved");
+        console.log(savedFile);
 
-    this.fileOpener.open(path, mimeType)
-      .then(() => console.log('File is opened'))
-      .catch(e => console.log('Error opening file', e));
+        this.fileOpener.open(savedFile.uri, mimeType)
+          .then(() => console.log('File is opened'))
+          .catch(e => console.log('Error opening file', e));
+      });
+
+
+    //   this.http.get('http://ionic.io', {}, {})
+    //     .then(data => {
+    //       console.log(data.status);
+    //       console.log(data.data); // data received by server
+    //       console.log(data.headers);
+
+    //     })
+    //     .catch(error => {
+
+    //       console.log(error.status);
+    //       console.log(error.error); // error message as string
+    //       console.log(error.headers);
+
+    //     });
+    //   this.fileOpener.open(path, mimeType)
+    //     .then(() => console.log('File is opened'))
+    //     .catch(e => console.log('Error opening file', e));
 
   };
 

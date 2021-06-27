@@ -22,6 +22,11 @@ export class LoginPage {
     await loading.present();
 
     await this.authService.LogIn(email, password);
+    await this.delay(1000);
     await loading.dismiss();
   }
+
+  private delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
+}
 }

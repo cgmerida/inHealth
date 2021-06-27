@@ -8,6 +8,7 @@ import { ErrorService } from './error.service';
 import { Subscription } from 'rxjs';
 import { User } from '../models/user';
 import { UserService } from './user.service';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -19,13 +20,12 @@ export class AuthService {
 
   constructor(
     private fireAuth: AngularFireAuth,
-    private userService: UserService,
     private router: Router,
     private ngZone: NgZone,
     private alertCtl: AlertController,
     private errors: ErrorService,
-    private navController: NavController
-
+    private navController: NavController,
+    private db: AngularFirestore,
   ) {
     this.userSub = this.fireAuth.authState.subscribe(fireUser => {
       if (fireUser)
@@ -33,14 +33,14 @@ export class AuthService {
     })
   }
   get isAuthenticated(): boolean {
-    return this.authUser !== null;
+    return !(this.authUser == null || this.authUser == undefined);
   }
   get currentUserId(): string {
     return this.isAuthenticated ? this.authUser.uid : null;
   }
 
   getAuthUser() {
-    return this.authUser;
+    return this.isAuthenticated ? this.authUser : null;
   }
 
   // Register user with email/password
@@ -58,7 +58,7 @@ export class AuthService {
       updatedAt: new Date()
     };
 
-    await this.userService.addUser(user);
+    await this.db.collection<User>('users').doc(user.uid).set(user);
     await this.SendVerificationMail();
 
   }
@@ -94,7 +94,6 @@ export class AuthService {
           this.redirectAuth();
         });
       }).catch((err) => {
-        console.error(err);
         this.presentAlert('Error', 'Problema iniciando sesión',
           this.errors.printErrorByCode(err));
       })

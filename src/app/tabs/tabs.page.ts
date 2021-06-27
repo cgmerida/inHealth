@@ -1,6 +1,5 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { Subscription } from 'rxjs';
 import { UserService } from '../services/user.service';
 import { User } from '../models/user';
 import { AppointmentFormComponent } from '../pages/appointment-form/appointment-form.component';
@@ -10,9 +9,7 @@ import { AppointmentFormComponent } from '../pages/appointment-form/appointment-
   templateUrl: 'tabs.page.html',
   styleUrls: ['tabs.page.scss']
 })
-export class TabsPage implements OnDestroy {
-
-  private userSub: Subscription;
+export class TabsPage {
   user: User;
 
   constructor(
@@ -20,7 +17,7 @@ export class TabsPage implements OnDestroy {
     private userService: UserService,
   ) {
 
-    this.userSub = this.userService.getAuthUser().subscribe(user => {
+    this.userService.getAuthUser().subscribe(user => {
       if (user) {
         this.user = user;
       }
@@ -36,11 +33,5 @@ export class TabsPage implements OnDestroy {
     const modal = await this.modalController.create(modalConfig);
     await modal.present();
   }
-
-
-  ngOnDestroy() {
-    this.userSub.unsubscribe();
-  }
-
 
 }

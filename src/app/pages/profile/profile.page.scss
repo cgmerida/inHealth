@@ -1,5 +1,5 @@
 .card {
-  background-color: var(--ion-color-secondary);
+  background-color: var(--ion-color-primary);
   margin: -1px auto;
 
   .header {
@@ -22,6 +22,11 @@
       }
     }
   }
+}
+
+ion-col > ion-button {
+  width: 100%;
+  max-width: 300px;
 }
 
 .title {

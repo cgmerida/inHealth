@@ -10,8 +10,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
-import { Downloader } from '@ionic-native/downloader/ngx';
-
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -21,7 +19,7 @@ import { AppComponent } from './app.component';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
-import { AngularFireAuthGuard } from '@angular/fire/auth-guard';
+import { AngularFireAuthGuard, AngularFireAuthGuardModule } from '@angular/fire/auth-guard';
 import { AngularFireStorageModule } from "@angular/fire/storage";
 
 import { environment } from 'src/environments/environment';
@@ -38,6 +36,7 @@ import { environment } from 'src/environments/environment';
     AngularFireAuthModule,
     AngularFirestoreModule,
     AngularFireStorageModule,
+    AngularFireAuthGuardModule,
     HttpClientModule,
   ],
   providers: [
@@ -46,7 +45,6 @@ import { environment } from 'src/environments/environment';
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     AngularFireAuthGuard,
     FileOpener,
-    Downloader
   ],
   bootstrap: [AppComponent]
 })

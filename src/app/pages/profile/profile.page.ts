@@ -1,25 +1,34 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/models/user';
-import { Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
+import { Record } from 'src/app/models/app/record';
+import { ModalController, Platform } from '@ionic/angular';
+import { RecordFormComponent } from '../record-form/record-form.component';
+import { RecordService } from 'src/app/services/app/record.service';
+
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
   styleUrls: ['./profile.page.scss'],
 })
-export class ProfilePage {
-
-  private userSub: Subscription;
+export class ProfilePage implements OnInit {
   user: User;
   userEdit: Partial<User>;
   update: boolean = false;
+  records: Observable<Record[]>;
 
   constructor(
     private authService: AuthService,
     private userService: UserService,
+    private recordsService: RecordService,
+    private modalController: ModalController,
+    private platform: Platform
   ) {
-    this.userSub = this.userService.getAuthUser().subscribe(user => {
+  }
+  ngOnInit(): void {
+    this.userService.getAuthUser().subscribe(user => {
       if (user) {
         this.user = user;
 
@@ -30,12 +39,12 @@ export class ProfilePage {
           tel: this.user.tel,
         };
 
-        this.user.photoURL = this.user.photoURL ? this.user.photoURL :
-          `https://ui-avatars.com/api/?size=200&background=079db6&color=fff&name=${user.firstname}+${user.lastname}`;
+        this.user.photoURL = `https://ui-avatars.com/api/?size=200&background=4F5457&color=EFEFEF&name=${user.firstname}+${user.lastname}`;
       }
     });
-  }
 
+    this.records = this.recordsService.getRecordsByUser();
+  }
 
   onSubmit() {
     if ((
@@ -55,12 +64,30 @@ export class ProfilePage {
   }
 
   async logOut() {
-    this.userSub.unsubscribe();
     await this.authService.SignOut();
+  }
+
+  async addRecord() {
+    let modalConfig = {
+      component: RecordFormComponent,
+      swipeToClose: true,
+      cssClass: 'my-modal',
+    }
+    const modal = await this.modalController.create(modalConfig);
+    await modal.present();
   }
 
   updateUrl() {
     this.user.photoURL = 'https://southernplasticsurgery.com.au/wp-content/uploads/2013/10/user-placeholder.png';
+  }
+
+
+  get isMobile() {
+    return (this.platform.is('android') || this.platform.is('hybrid')) === true
+  }
+
+  trackBy(index: number, record: Record) {
+    return record.uid;
   }
 
 }
