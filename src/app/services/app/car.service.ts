@@ -45,7 +45,7 @@ export class CarService {
   }
 
   async getCarsByUser() {
-    let uid = await this.authService.getAuthUserUid();
+    let uid = this.authService.currentUserId;
     return this.db.collection<Car>('cars', ref => ref.where('owner', '==', uid)).valueChanges({ idField: 'uid' });
   }
 
@@ -56,7 +56,7 @@ export class CarService {
   async addCar(car: Car) {
     car.createdAt = new Date();
     car.updatedAt = new Date();
-    car.owner = await this.authService.getAuthUserUid();
+    car.owner = this.authService.currentUserId;
     return this.carCollection.add({ ...car })
       .then(() => {
         return `Carro registrado`;
@@ -68,7 +68,7 @@ export class CarService {
       if (km.km <= km.oldKm) {
         reject(`El kilometraje debe ser mayor al registrado anteriormente`);
       } else {
-        resolve();
+        resolve(true);
       }
     })
       .then(_ => {

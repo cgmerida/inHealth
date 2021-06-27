@@ -18,7 +18,7 @@ export class ResponseService {
   async addResponse(res) {
     let response: Responses = {
       ...res,
-      owner: await this.authService.getAuthUserUid(),
+      owner: this.authService.currentUserId,
       createdAt: new Date(),
       updatedAt: new Date(),
     }

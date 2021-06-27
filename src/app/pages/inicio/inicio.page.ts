@@ -12,12 +12,6 @@ import { take } from 'rxjs/operators';
 })
 export class InicioPage implements OnInit, OnDestroy {
 
-  // private slideOpts = {
-  //   slidesPerView: 1.5,
-  //   loop: true,
-  //   centeredSlides: true,
-  //   spaceBetween: 10
-  // };
 
   private orderSub: Subscription;
 
@@ -35,27 +29,27 @@ export class InicioPage implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.loading = true;
-    this.orderServcice.getCompletedOrdersByUser().then(orders$ => {
-      this.orderSub = orders$.subscribe(orders => {
-        this.totalOrders = 0;
-        this.totalExpenses = 0;
+    this.loading = false;
+    // this.orderServcice.getCompletedOrdersByUser().then(orders$ => {
+    //   this.orderSub = orders$.subscribe(orders => {
+    //     this.totalOrders = 0;
+    //     this.totalExpenses = 0;
 
-        orders.forEach(order => {
-          this.totalOrders++;
-          order.services.forEach(service => {
-            this.totalExpenses += Math.round(service.price * 100) / 100;
-            if (service.hasOwnProperty('products') && service.products.length > 0) {
-              service.products.forEach(product => {
-                this.totalExpenses += Math.round(product.price * 100) / 100;
-              });
-            }
-          })
-        })
-      });
+    //     orders.forEach(order => {
+    //       this.totalOrders++;
+    //       order.services.forEach(service => {
+    //         this.totalExpenses += Math.round(service.price * 100) / 100;
+    //         if (service.hasOwnProperty('products') && service.products.length > 0) {
+    //           service.products.forEach(product => {
+    //             this.totalExpenses += Math.round(product.price * 100) / 100;
+    //           });
+    //         }
+    //       })
+    //     })
+    //   });
 
-      this.loading = false;
-    });
+    //   this.loading = false;
+    // });
   }
 
   ngOnDestroy() {

@@ -1,0 +1,20 @@
+.md.title-large {
+  text-indent: 35px;
+}
+
+ion-card {
+  ion-card-content {
+    border-top: 1px solid #e0e0e0;
+    padding-top: 16px;
+  }
+}
+ion-card-title {
+  span {
+    font-weight: lighter;
+  }
+}
+ion-rating {
+  position: absolute;
+  right: 20px;
+  bottom: 5px;
+}

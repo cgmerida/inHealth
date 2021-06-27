@@ -32,6 +32,14 @@ img.logo {
   width: 90%;
 }
 
+.bolder {
+  font-weight: bolder;
+}
+
+.lighter {
+  font-weight: lighter;
+}
+
 
 span.error {
   background: none;
@@ -144,4 +152,10 @@ ion-header .toolbar {
 .alert-radio-label.sc-ion-alert-md,
 .alert-radio-label.sc-ion-alert-ios {
   white-space: normal;
+}
+
+
+// ion list siempre toma el valor padre
+ion-list {
+  background-color: transparent!important;
 }

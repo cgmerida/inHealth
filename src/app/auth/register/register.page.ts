@@ -32,6 +32,9 @@ export class RegisterPage {
       docType: ['dpi', Validators.required],
       dpi: [null, [Validators.required, Validators.pattern('^[0-9]{4}\\s?[0-9]{5}\\s?[0-9]{4}$')]],
       pn: [null, Validators.pattern('^[0-9]{13}$')],
+      padre: [null],
+      madre: [null],
+      tutor: [null],
       email: [null, [Validators.required, Validators.email]],
       tel: [null, [Validators.pattern('^[0-9]{8}$')]],
       password: [null, [Validators.required, Validators.minLength(8)]],
@@ -72,7 +75,6 @@ export class RegisterPage {
       await this.authService.RegisterUser(user);
       await this.router.navigate(['verify-email']);
     } catch (err) {
-      console.error(err);
       await this.presentAlert(this.errors.printErrorByCode(err.code));
     } finally {
       await loading.dismiss();
@@ -93,7 +95,6 @@ export class RegisterPage {
   }
 
   toggle() {
-    console.log('entro');
     if (this.registerForm.get('docType').value === 'dpi') {
       this.registerForm.get('dpi').setValidators([Validators.required, Validators.pattern('^[0-9]{4}\\s?[0-9]{5}\\s?[0-9]{4}$')]);
       this.registerForm.get('pn').setValidators(null);

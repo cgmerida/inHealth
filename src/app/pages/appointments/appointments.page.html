@@ -1,0 +1,94 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar translucent class="ion-text-center" color="light">
+    <ion-title>Control de Citas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card *ngFor="let appointment of appointments" color="light">
+    <ion-card-header>
+      <ion-card-title> Cita en {{ appointment.clinic.name }} </ion-card-title>
+
+      <ion-card-subtitle>
+        Fecha: {{ appointment.date.toDate() | date:'dd/MM/yyyy' }}
+      </ion-card-subtitle>
+      <ion-card-subtitle>
+        Estado:
+        <ion-text [color]="statusColor[appointment.status]">
+          {{ appointment.status }}
+        </ion-text>
+      </ion-card-subtitle>
+      <ion-rating
+        *ngIf="appointment.rating"
+        [rate]="appointment.rating | number:'1.0-0'"
+        size="small"
+        readonly="true"
+      ></ion-rating>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-card-title>Especialidad</ion-card-title>
+      <ion-list lines="none">
+        <ion-item color="light">
+          {{appointment.specialty.name}}<br />
+          {{appointment.specialty.doc}}
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+
+    <ion-card-content *ngIf="appointment.exams && appointment.exams.length > 0">
+      <ion-card-title>Examenes</ion-card-title>
+      <ion-list lines="inset">
+        <div *ngFor="let exam of appointment.exams">
+          <ion-item color="light">
+            <ion-label>
+              <h2 class="ion-text-wrap ion-padding-end">{{exam.name}}</h2>
+              <p *ngIf="exam.price">
+                {{exam.price | currency:'GTQ':'symbol-narrow'}}
+              </p>
+            </ion-label>
+
+            <ion-button
+              color="success"
+              download="{{exam.name}}"
+              href="{{exam.url}}"
+              target="_blank"
+              *ngIf="!isMobile"
+            >
+              Descargar
+              <ion-icon name="cloud-download" slot="end"></ion-icon>
+            </ion-button>
+
+            <ion-button
+              color="success"
+              (click)="downloadFile(exam.url)"
+              *ngIf="isMobile"
+            >
+              Descargar
+              <ion-icon name="cloud-download" slot="end"></ion-icon>
+            </ion-button>
+          </ion-item>
+        </div>
+      </ion-list>
+    </ion-card-content>
+
+    <ion-footer *ngIf="appointment.status == 'Completada'">
+      <ion-row>
+        <ion-col class="ion-padding">
+          <ion-button
+            expand="full"
+            color="primary"
+            [routerLink]="['appointment/rating', appointment.uid]"
+            routerDirection="forward"
+            [disabled]="appointment.rating"
+          >
+            Calificar
+          </ion-button>
+        </ion-col>
+        <ion-col class="ion-padding">
+          <ion-button expand="full" color="light">Reclamar</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-footer>
+  </ion-card>
+</ion-content>

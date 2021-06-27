@@ -6,7 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TabsPageRoutingModule } from './tabs-routing.module';
 
 import { TabsPage } from './tabs.page';
-import { OrderFormComponent } from '../pages/order-form/order-form.component';
+import { AppointmentFormComponent } from '../pages/appointment-form/appointment-form.component';
 
 @NgModule({
   imports: [
@@ -16,6 +16,6 @@ import { OrderFormComponent } from '../pages/order-form/order-form.component';
     TabsPageRoutingModule,
     ReactiveFormsModule,
   ],
-  declarations: [TabsPage, OrderFormComponent]
+  declarations: [TabsPage, AppointmentFormComponent]
 })
 export class TabsPageModule { }

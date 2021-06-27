@@ -4,8 +4,14 @@ import { RouteReuseStrategy } from '@angular/router';
 import { IonicStorageModule } from '@ionic/storage';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+
+import { HttpClientModule } from '@angular/common/http';
+
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { FileOpener } from '@ionic-native/file-opener/ngx';
+import { Downloader } from '@ionic-native/downloader/ngx';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -32,12 +38,15 @@ import { environment } from 'src/environments/environment';
     AngularFireAuthModule,
     AngularFirestoreModule,
     AngularFireStorageModule,
+    HttpClientModule,
   ],
   providers: [
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    AngularFireAuthGuard
+    AngularFireAuthGuard,
+    FileOpener,
+    Downloader
   ],
   bootstrap: [AppComponent]
 })

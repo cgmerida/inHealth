@@ -75,7 +75,7 @@ export class OrderService {
   async getOrdersByUser(): Promise<Observable<Order[]>> {
     let uid: string;
     try {
-      uid = await this.authService.getAuthUserUid();
+      uid = this.authService.currentUserId;
     } catch (err) {
       console.log(err);
       return;
@@ -104,7 +104,7 @@ export class OrderService {
 
 
   async getCompletedOrdersByUser(): Promise<Observable<Order[]>> {
-    let uid = await this.authService.getAuthUserUid();
+    let uid = this.authService.currentUserId;
 
     return this.db.collection<Order>('orders', ref => {
       return ref.where('owner', '==', uid)

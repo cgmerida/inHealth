@@ -1,11 +1,11 @@
 <ion-tabs>
-  <ion-tab-bar slot="bottom">
+  <ion-tab-bar slot="bottom" color="light">
     <ion-tab-button tab="inicio">
       <ion-icon name="home-outline"></ion-icon>
     </ion-tab-button>
 
-    <ion-tab-button tab="servicios">
-      <ion-icon name="construct-outline"></ion-icon>
+    <ion-tab-button tab="appointments">
+      <ion-icon name="today-outline"></ion-icon>
     </ion-tab-button>
 
     <ion-tab-button></ion-tab-button>
@@ -26,15 +26,7 @@
     <ion-icon name="add-outline"></ion-icon>
   </ion-fab-button>
   <ion-fab-list side="top">
-    <ion-fab-button
-      color="dark"
-      routerDirection="forward"
-      routerLink="/app/cars"
-    >
-      <ion-icon name="car-sport-outline"></ion-icon>
-    </ion-fab-button>
-
-    <ion-fab-button color="dark" (click)="registrarOrden()">
+    <ion-fab-button color="primary" (click)="agendarCita()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab-list>

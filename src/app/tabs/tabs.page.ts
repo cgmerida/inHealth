@@ -1,9 +1,9 @@
 import { Component, OnDestroy } from '@angular/core';
-import { OrderFormComponent } from '../pages/order-form/order-form.component';
 import { ModalController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { UserService } from '../services/user.service';
 import { User } from '../models/user';
+import { AppointmentFormComponent } from '../pages/appointment-form/appointment-form.component';
 
 @Component({
   selector: 'app-tabs',
@@ -27,9 +27,9 @@ export class TabsPage implements OnDestroy {
     });
   }
 
-  async registrarOrden() {
+  async agendarCita() {
     let modalConfig = {
-      component: OrderFormComponent,
+      component: AppointmentFormComponent,
       swipeToClose: true,
       cssClass: 'my-modal',
     }

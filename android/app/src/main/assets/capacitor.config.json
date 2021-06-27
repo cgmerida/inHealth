@@ -1,0 +1,17 @@
+{
+  "appId": "com.ion.inHealth",
+  "appName": "inHealth",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "www",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0,
+      "backgroundColor": "#02023e",
+      "splashImmersive": true,
+      "androidScaleType": "CENTER_CROP"
+    }
+  },
+  "linuxAndroidStudioPath": "/snap/android-studio/current/android-studio/bin/studio.sh",
+  "cordova": {}
+}

@@ -32,32 +32,21 @@ export class AuthService {
         this.authUser = fireUser;
     })
   }
-
-  getAuthUserUid(): Promise<string | null> {
-    return new Promise(resolve => {
-      if (this.authUser) {
-        resolve(this.authUser.uid)
-      } else {
-        this.fireAuth.currentUser
-          .then(fireUser => {
-            if (fireUser)
-              resolve(fireUser.uid);
-          })
-      }
-    })
-
+  get isAuthenticated(): boolean {
+    return this.authUser !== null;
+  }
+  get currentUserId(): string {
+    return this.isAuthenticated ? this.authUser.uid : null;
   }
 
   getAuthUser() {
-    return this.fireAuth.currentUser;
+    return this.authUser;
   }
 
   // Register user with email/password
   async RegisterUser(userData) {
     let authUser: fireUser = (await this.fireAuth.createUserWithEmailAndPassword(userData.email, userData.password)).user;
 
-    console.log(authUser);
-    
     delete userData.password;
     delete userData.confirmpassword;
 
@@ -68,8 +57,6 @@ export class AuthService {
       createdAt: new Date(),
       updatedAt: new Date()
     };
-
-    console.log(user);
 
     await this.userService.addUser(user);
     await this.SendVerificationMail();

@@ -15,13 +15,19 @@ export class StorageService {
   }
 
   private async loadUser() {
-    this.uid = await this.authService.getAuthUserUid();
+    this.uid = this.authService.currentUserId;
   }
 
   uploadCarImg(img, name) {
     // let fecha = new Date().toLocaleDateString().replace(/\//g, "-");
     return this.storage.upload(`cars/${this.uid}/${name}.jpg`, img)
       .then(task => task.ref.getDownloadURL());
+  }
+
+  
+  download(path) {
+    // let fecha = new Date().toLocaleDateString().replace(/\//g, "-");
+    return this.storage.ref(path).getDownloadURL();
   }
 
   deleteCarPhoto(downloadUrl): Promise<void> {

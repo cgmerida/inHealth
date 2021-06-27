@@ -9,6 +9,8 @@ export class User {
   tel?: number;
   medical_records?: [string];
   isAdmin?: boolean;
+  displayName?: string;
+  photoURL?: string;
   createdAt: Date;
   updatedAt: Date;
 }

@@ -55,13 +55,14 @@ const routes: Routes = [
     path: '404',
     loadChildren: () => import('./notfound/notfound.module').then(m => m.NotfoundPageModule)
   },
+  {
+    path: '**',
+    redirectTo: '/404',
+    pathMatch: 'full'
+  },
+
 ];
 
-// {
-//   path: '**',
-//   redirectTo: '/404',
-//   pathMatch: 'full'
-// },
 
 @NgModule({
   imports: [

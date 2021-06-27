@@ -12,12 +12,8 @@ const routes: Routes = [
         loadChildren: () => import('../pages/inicio/inicio.module').then(m => m.InicioPageModule)
       },
       {
-        path: 'cars',
-        loadChildren: () => import('../pages/cars/cars.module').then(m => m.CarsPageModule)
-      },
-      {
-        path: 'servicios',
-        loadChildren: () => import('../pages/orders/orders.module').then(m => m.OrdersPageModule)
+        path: 'appointments',
+        loadChildren: () => import('../pages/appointments/appointments.module').then( m => m.AppointmentsPageModule)
       },
       {
         path: 'gastos',
