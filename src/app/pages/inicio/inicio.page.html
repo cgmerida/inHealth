@@ -1,51 +1,35 @@
-<ion-content padding>
-  <section class="ion-text-center">
-    <!-- <ion-icon name="person" class="font"></ion-icon> -->
-    <img src="assets/img/logo/logo.svg" alt="Logo Full" />
-    <h1 class="bolder">Bienvenido</h1>
-    <div *ngIf="user | async as userData">
-      <h3 class="ion-no-margin lighter">
-        {{userData.firstname ? userData.firstname + ' ' + userData.lastname :
-        userData.displayName | titlecase}}
-      </h3>
+<ion-content fullscreen="true" slot="fixed">
+  <div class="main-card">
+    <div class="header">
+      <section class="ion-text-center">
+        <img src="assets/img/logo/logo-blanco.svg" alt="Logo Full" />
+        <h1 class="bolder">¡Bienvenido!</h1>
+        <div *ngIf="user | async as userData">
+          <h3 class="ion-no-margin lighter">
+            {{userData.firstname ? userData.firstname + ' ' + userData.lastname
+            : userData.displayName | titlecase}}
+          </h3>
+        </div>
+      </section>
     </div>
-  </section>
+  </div>
 
-  <ion-grid id="main-grid">
+  <ion-grid class="ion-padding-top">
     <ion-row>
       <ion-col>
-        <ion-card class="ion-text-center ion-no-margin" color="tertiary">
+        <ion-card class="ion-text-center ion-no-margin" color="light">
           <ion-card-header class="ion-no-padding ion-padding-vertical">
-            <ion-icon name="cash-sharp"></ion-icon>
-
-            <ion-spinner
-              name="crescent"
-              *ngIf="loading"
-              color="light"
-            ></ion-spinner>
-            <ion-card-title *ngIf="!loading">
-              {{totalExpenses| currency:'GTQ':'symbol-narrow'}}
-            </ion-card-title>
+            <ion-icon name="call" color="primary"></ion-icon>
+            <ion-card-title>Consultas</ion-card-title>
           </ion-card-header>
-          <ion-card-content class="ion-no-padding ion-padding-vertical">
-            Gastos Generales
-          </ion-card-content>
         </ion-card>
       </ion-col>
       <ion-col>
-        <ion-card class="ion-text-center ion-no-margin" color="tertiary">
+        <ion-card class="ion-text-center ion-no-margin" color="light">
           <ion-card-header class="ion-no-padding ion-padding-vertical">
-            <ion-icon name="build-sharp"></ion-icon>
-            <ion-spinner
-              name="crescent"
-              *ngIf="loading"
-              color="light"
-            ></ion-spinner>
-            <ion-card-title *ngIf="!loading">{{totalOrders}}</ion-card-title>
+            <ion-icon name="build-sharp" color="primary"></ion-icon>
+            <ion-card-title>Contactar</ion-card-title>
           </ion-card-header>
-          <ion-card-content class="ion-no-padding ion-padding-vertical">
-            Servicios Recibidos
-          </ion-card-content>
         </ion-card>
       </ion-col>
     </ion-row>

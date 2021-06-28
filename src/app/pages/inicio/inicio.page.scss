@@ -1,28 +1,65 @@
+.main-card {
+  background-color: var(--ion-color-primary);
+  width: 100%;
+  color: var(--ion-color-secondary);
+  // -webkit-border-bottom-right-radius: 50px;
+  // -webkit-border-bottom-left-radius: 50px;
+  // -moz-border-radius-bottomright: 50px;
+  // -moz-border-radius-bottomleft: 50px;
+  // border-bottom-right-radius: 50px;
+  // border-bottom-left-radius: 50px;
+  position: relative; /* Add position relative so the pseudo element will origin off this with position absolute */
 
-section > img {
-  // font-size: 5em;
-  margin-top: 40px;
-  max-width: 400px;
-  width: 80%;
+  .header {
+    height: 200px;
+    img {
+      margin-top: 40px;
+      max-width: 400px;
+      width: 80%;
+    }
+  }
+}
+/* The newly created pseudo element */
+.main-card::before {
+  content: "";
+  position: absolute;
+  background-color: transparent;
+  bottom: -50px;
+  height: 50px;
+  width: 25px;
+  border-top-left-radius: 25px;
+  box-shadow: 0 -25px 0 0 var(--ion-color-primary);
+}
+.main-card::after {
+  content: "";
+  position: absolute;
+  background-color: transparent;
+  bottom: -50px;
+  right: 0;
+  height: 50px;
+  width: 25px;
+  border-top-right-radius: 25px;
+  box-shadow: 0 -25px 0 0 var(--ion-color-primary);
 }
 
-ion-card.ion-no-margin{
+.rounded {
+  width: min-content;
+  --border-radius: 50%;
+}
+
+ion-card.ion-no-margin {
   margin: 15px 5px;
 }
 
 ion-card ion-icon {
-  font-size: 5em;
-  opacity: 0.9;
+  font-size: 4em;
+  opacity: 0.8;
 }
 
 h2 {
   margin: 0;
 }
 
-ion-spinner {
-  display: flex;
-  margin: 0 auto;
-}
 ion-slide ion-card {
   width: 100%;
   // height: 115px;
