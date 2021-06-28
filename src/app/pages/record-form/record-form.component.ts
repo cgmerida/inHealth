@@ -6,6 +6,7 @@ import { AlertController, LoadingController, ModalController, Platform } from '@
 import { RecordService } from 'src/app/services/app/record.service';
 import { ErrorService } from 'src/app/services/error.service';
 import { StorageService } from 'src/app/services/storage.service';
+import { FileChooser } from '@ionic-native/file-chooser/ngx';
 
 @Component({
   selector: 'app-record-form',
@@ -16,7 +17,7 @@ import { StorageService } from 'src/app/services/storage.service';
 export class RecordFormComponent implements OnInit {
 
   recordForm: FormGroup;
-  isSubmitted: boolean;
+  isSubmitted = false;
 
   @ViewChild('filePicker', { static: false }) filePickerRef: ElementRef<HTMLInputElement>;
   document: SafeResourceUrl;
@@ -33,14 +34,12 @@ export class RecordFormComponent implements OnInit {
     private storageService: StorageService,
     private errorService: ErrorService,
     private platform: Platform,
-    private datePipe: DatePipe) {
+    private datePipe: DatePipe,
+    private fileChooser: FileChooser) {
   }
 
-  get isDesktop(): boolean {
-    if (!(this.platform.is('ios') && this.platform.is('android')) || this.platform.is('desktop')) {
-      return true;
-    }
-    return false;
+  get isMobile() {
+    return this.platform.is('hybrid');
   }
 
   ngOnInit() {
@@ -53,11 +52,21 @@ export class RecordFormComponent implements OnInit {
     return this.recordForm.controls;
   }
 
-  uploadDoc(type: string) {
-    if (this.isDesktop) {
-      this.filePickerRef.nativeElement.click();
-      return;
-    }
+  async uploadDoc() {
+
+    this.filePickerRef.nativeElement.click();
+    // if (this.isMobile) {
+    //   try {
+    //     let file = await this.fileChooser.open();
+    //     console.log(file);
+    //   } catch (error) {
+    //     this.presentAlert("Error", "Error al intentar obtener un archivo", `Detalle: ${error}`)
+    //   }
+
+    // } else {
+    //   this.filePickerRef.nativeElement.click();
+    //   return;
+    // }
   }
 
 
@@ -78,7 +87,7 @@ export class RecordFormComponent implements OnInit {
 
     if (['png', 'jpg'].includes(ext)) {
       reader.onload = () => {
-        this.document = reader.result.toString();
+        this.document = reader.result as string;
       };
       reader.readAsDataURL(file);
     }
@@ -100,7 +109,6 @@ export class RecordFormComponent implements OnInit {
     if (!this.recordForm.valid) {
       return false;
     }
-
     if (!this.uploadFile) {
       return false;
     }
@@ -110,13 +118,11 @@ export class RecordFormComponent implements OnInit {
   async registrar() {
     let loading = await this.loadingController.create();
     await loading.present();
-
-    let res;
     let record = this.recordForm.value;
 
     try {
       record.url = await this.getImg();
-      res = await this.recordService.addRecord(record);
+      let res = await this.recordService.addRecord(record);
       await this.presentAlert(`¡Genial!`, null, res);
       this.dismiss();
     } catch (error) {
@@ -168,13 +174,7 @@ export class RecordFormComponent implements OnInit {
     await alert.present();
   }
 
-
-
-
   dismiss() {
     this.modalController.dismiss();
   }
-
-
-
 }

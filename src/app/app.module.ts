@@ -10,6 +10,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
+import { FileChooser } from '@ionic-native/file-chooser/ngx';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -45,6 +47,7 @@ import { environment } from 'src/environments/environment';
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     AngularFireAuthGuard,
     FileOpener,
+    FileChooser,
   ],
   bootstrap: [AppComponent]
 })

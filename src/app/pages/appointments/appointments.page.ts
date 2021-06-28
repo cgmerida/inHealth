@@ -6,9 +6,12 @@ import { AppointmentService } from 'src/app/services/app/appointment.service';
 //native
 import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { HttpClient } from '@angular/common/http';
-import { Filesystem, FilesystemDirectory } from '@capacitor/core';
 import { Observable } from 'rxjs';
 
+//Capacitor
+import { Plugins, FilesystemDirectory } from '@capacitor/core';
+import { getFileReader } from 'src/app/utils/utils';
+const { Filesystem } = Plugins;
 
 @Component({
   selector: 'app-appointments',
@@ -38,51 +41,31 @@ export class AppointmentsPage implements OnInit {
   }
 
   downloadFile = async (url: string) => {
-    console.log(`entro a descargas`);
     let file = this.getFileName(url);
-    const name = file[0];
+    const name = file[1];
     const mimeType = this.getMimeType(name);
 
-    this.http.get(url, {
-      responseType: 'blob',
-    })
-      .subscribe(async (resp) => {
-        console.log("resp");
-        console.log(resp);
-        const base64Data = await this.convertBlobToBase64(resp) as string;
+    let resp = await this.http.get(url, {
+      responseType: "blob"
+    }).toPromise();
 
-        let savedFile = await Filesystem.writeFile({
-          path: name,
-          data: base64Data,
-          directory: FilesystemDirectory.Documents
-        });
+    let base64String = await this.convertBlobToBase64(resp) as string;
 
-        console.log("img saved");
-        console.log(savedFile);
+    try {
 
-        this.fileOpener.open(savedFile.uri, mimeType)
-          .then(() => console.log('File is opened'))
-          .catch(e => console.log('Error opening file', e));
+      let savedFile = await Filesystem.writeFile({
+        path: name,
+        data: base64String,
+        directory: FilesystemDirectory.Documents
       });
 
+      this.fileOpener.open(savedFile.uri, mimeType)
+        .then(() => console.log('File is opened'))
+        .catch(e => console.log('Error opening file', e));
 
-    //   this.http.get('http://ionic.io', {}, {})
-    //     .then(data => {
-    //       console.log(data.status);
-    //       console.log(data.data); // data received by server
-    //       console.log(data.headers);
-
-    //     })
-    //     .catch(error => {
-
-    //       console.log(error.status);
-    //       console.log(error.error); // error message as string
-    //       console.log(error.headers);
-
-    //     });
-    //   this.fileOpener.open(path, mimeType)
-    //     .then(() => console.log('File is opened'))
-    //     .catch(e => console.log('Error opening file', e));
+    } catch (e) {
+      this.presentAlert("Error", `Error al abrir archivo ${e}.`);
+    }
 
   };
 
@@ -92,24 +75,22 @@ export class AppointmentsPage implements OnInit {
       message: msg,
       buttons: ['OK']
     });
-
     await alert.present();
   }
 
   getFileName(name) {
-    var arr = name.match(/.*\/(.*\.(png|jpg|pdf|doc|docs))?.*/);
+    let arr = name.match(/.*\/(.*\.(png|jpg|pdf|doc|docs))?.*/);
     return (arr);
   }
 
-  private convertBlobToBase64 = (blob: Blob) =>
-    new Promise((resolve, reject) => {
-      const reader = new FileReader;
-      reader.onerror = reject;
-      reader.onload = () => {
-        resolve(reader.result);
-      };
-      reader.readAsDataURL(blob);
-    });
+  private convertBlobToBase64 = (blob) => new Promise((resolve, reject) => {
+    const reader = getFileReader();
+    reader.onerror = reject;
+    reader.onload = (imgsrc) => {
+      resolve((imgsrc.target as FileReader).result);
+    };
+    reader.readAsDataURL(blob);
+  });
 
   private getMimeType = (name) => {
     if (name == 'pdf') {
@@ -123,5 +104,5 @@ export class AppointmentsPage implements OnInit {
     } else if (name == 'doc') {
       return 'application/msword';
     }
-  }
+  };
 }

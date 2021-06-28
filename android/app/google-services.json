@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "857518981613",
+    "project_id": "inhealth-dev",
+    "storage_bucket": "inhealth-dev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:857518981613:android:48366057c7acd554e6e7e4",
+        "android_client_info": {
+          "package_name": "com.ion.inHealth"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "857518981613-juc3pm499unmn76lf06mmgmc10f9a9on.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvSoTJbKhhkvH77fAoMAiib1uDrBqOGEU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "857518981613-juc3pm499unmn76lf06mmgmc10f9a9on.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

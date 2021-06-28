@@ -19,10 +19,10 @@ export class InicioPage implements OnInit {
   constructor(
     private userService: UserService,
   ) {
+    this.user = this.userService.getAuthUser();
   }
 
   ngOnInit() {
-    this.user = this.userService.getAuthUser();
     this.loading = false;
     // this.orderServcice.getCompletedOrdersByUser().then(orders$ => {
     //   this.orderSub = orders$.subscribe(orders => {

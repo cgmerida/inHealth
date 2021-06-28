@@ -4,9 +4,16 @@ import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/models/user';
 import { Observable } from 'rxjs';
 import { Record } from 'src/app/models/app/record';
-import { LoadingController, ModalController, Platform } from '@ionic/angular';
+import { AlertController, LoadingController, ModalController, Platform } from '@ionic/angular';
 import { RecordFormComponent } from '../record-form/record-form.component';
 import { RecordService } from 'src/app/services/app/record.service';
+import { FileOpener } from '@ionic-native/file-opener/ngx';
+import { HttpClient } from '@angular/common/http';
+import { Plugins, FilesystemDirectory } from '@capacitor/core';
+import { getFileReader } from 'src/app/utils/utils';
+import { StorageService } from 'src/app/services/storage.service';
+
+const { Filesystem } = Plugins;
 
 @Component({
   selector: 'app-profile',
@@ -22,10 +29,14 @@ export class ProfilePage implements OnInit {
   constructor(
     private authService: AuthService,
     private userService: UserService,
-    private recordsService: RecordService,
+    private recordService: RecordService,
     private modalController: ModalController,
     private platform: Platform,
-    private loadingController: LoadingController
+    private loadingController: LoadingController,
+    private fileOpener: FileOpener,
+    private alertController: AlertController,
+    private http: HttpClient,
+    private storageService: StorageService
   ) {
   }
   ngOnInit(): void {
@@ -44,7 +55,11 @@ export class ProfilePage implements OnInit {
       }
     });
 
-    this.records = this.recordsService.getRecordsByUser();
+    this.records = this.recordService.getRecordsByUser();
+  }
+
+  get isMobile() {
+    return this.platform.is('hybrid');
   }
 
   onSubmit() {
@@ -84,14 +99,99 @@ export class ProfilePage implements OnInit {
     await modal.present();
   }
 
+  async deleteRecord(record: Record) {
+    let loading = await this.loadingController.create();
+
+    await loading.present();
+
+    try {
+      await this.recordService.deleteRecord(record.uid);
+      if (record.url) {
+        await this.storageService.deleteRecord(record.url);;
+      }
+      this.presentAlert('¡Exito!', 'Registro médico eliminado');
+    } catch (err) {
+      this.presentAlert('Error', `Hubo un problema.\n Descripcion: ${err}`);
+    } finally {
+      loading.dismiss();
+    }
+
+  }
+
   updateUrl() {
     this.user.photoURL = 'https://southernplasticsurgery.com.au/wp-content/uploads/2013/10/user-placeholder.png';
   }
 
+  downloadFile = async (url: string) => {
+    let loading = await this.loadingController.create();
+    await loading.present();
 
-  get isMobile() {
-    return (this.platform.is('android') || this.platform.is('hybrid')) === true
+    let file = this.getFileName(url);
+    const name = file[1];
+    const mimeType = this.getMimeType(name);
+
+    let resp = await this.http.get(url, {
+      responseType: "blob"
+    }).toPromise();
+
+    let base64String = await this.convertBlobToBase64(resp) as string;
+
+    try {
+      let savedFile = await Filesystem.writeFile({
+        path: name,
+        data: base64String,
+        directory: FilesystemDirectory.Documents
+      });
+
+      this.fileOpener.open(savedFile.uri, mimeType)
+        .then(() => console.log('File is opened'))
+        .catch(e => console.log('Error opening file', e));
+
+    } catch (e) {
+      this.presentAlert("Error", `Error al abrir archivo ${e}.`);
+    } finally {
+      loading.dismiss();
+    }
+
+  };
+
+
+  async presentAlert(hdr, msg) {
+    const alert = await this.alertController.create({
+      header: hdr,
+      message: msg,
+      buttons: ['OK']
+    });
+    await alert.present();
   }
+
+  getFileName(name) {
+    let arr = name.match(/.*\/(.*\.(png|jpg|pdf|doc|docs))?.*/);
+    return (arr);
+  }
+
+  private convertBlobToBase64 = (blob) => new Promise((resolve, reject) => {
+    const reader = getFileReader();
+    reader.onerror = reject;
+    reader.onload = (imgsrc) => {
+      resolve((imgsrc.target as FileReader).result);
+    };
+    reader.readAsDataURL(blob);
+  });
+
+  private getMimeType = (name) => {
+    if (name == 'pdf') {
+      return 'application/pdf';
+    } else if (name == 'png') {
+      return 'application/png';
+    } else if (name == 'jpg') {
+      return 'image/jpeg';
+    } else if (name == 'docs') {
+      return 'application/msword';
+    } else if (name == 'doc') {
+      return 'application/msword';
+    }
+  };
 
   trackBy(index: number, record: Record) {
     return record.uid;

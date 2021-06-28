@@ -7,7 +7,7 @@
     <h4 class="ion-no-margin ion-text-center">Agregar Registro</h4>
   </div>
 
-  <form [formGroup]="recordForm" (submit)="onSubmit()">
+  <form [formGroup]="recordForm">
     <ion-list class="ion-no-margin ion-margin-horizontal ion-no-padding">
       <ion-item>
         <ion-label position="floating">Nombre</ion-label>
@@ -39,6 +39,13 @@
         </ion-col>
       </ion-row>
 
+      <input
+        type="file"
+        accept="image/jpeg, image/png, application/pdf, .doc, .docx"
+        #filePicker
+        (change)="onFileChoose($event)"
+      />
+
       <ion-row *ngIf="!!document">
         <ion-col class="ion-align-items-center">
           <img
@@ -67,22 +74,8 @@
       </ion-row>
     </ion-grid>
 
-    <input
-      type="file"
-      accept="image/jpeg, image/png, application/pdf, .doc, .docx"
-      *ngIf="isDesktop"
-      #filePicker
-      (change)="onFileChoose($event)"
-    />
-    <ion-text
-      color="danger"
-      *ngIf="isSubmitted && errorControl.license.errors?.required"
-    >
-      La foto no es válida.
-    </ion-text>
-
     <ion-button
-      type="submit"
+      (click)="onSubmit()"
       class="ion-margin"
       expand="block"
       color="primary"
