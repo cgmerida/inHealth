@@ -1,9 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { OrderService } from 'src/app/services/app/order.service';
+import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
-import { Observable, Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-inicio',
@@ -21,10 +19,10 @@ export class InicioPage implements OnInit {
   constructor(
     private userService: UserService,
   ) {
-    this.user = this.userService.getAuthUser();
   }
 
   ngOnInit() {
+    this.user = this.userService.getAuthUser();
     this.loading = false;
     // this.orderServcice.getCompletedOrdersByUser().then(orders$ => {
     //   this.orderSub = orders$.subscribe(orders => {

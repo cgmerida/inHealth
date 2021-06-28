@@ -16,6 +16,7 @@ export class AdminGuard implements CanActivate, CanActivateChild {
         if (user && user.isAdmin){
             return true;
         }
+        this.router.navigate(['/app']);
         return false;
     }
 

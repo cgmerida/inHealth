@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-card *ngFor="let appointment of appointments" color="light">
+  <ion-card *ngFor="let appointment of appointments | async" color="light">
     <ion-card-header>
       <ion-card-title> Cita en {{ appointment.clinic.name }} </ion-card-title>
 
@@ -44,22 +44,23 @@
 
             <ion-button
               color="success"
-              download="{{exam.name}}"
-              href="{{exam.url}}"
-              target="_blank"
-              *ngIf="!isMobile"
-            >
-              Descargar
-              <ion-icon name="cloud-download" slot="end"></ion-icon>
-            </ion-button>
-
-            <ion-button
-              color="success"
               (click)="downloadFile(exam.url)"
-              *ngIf="isMobile"
+              *ngIf="isMobile == true; else elseBlock"
             >
               <ion-icon name="cloud-download" slot="icon-only"></ion-icon>
             </ion-button>
+
+            <ng-template #elseBlock>
+              <ion-button
+                color="success"
+                download="{{exam.name}}"
+                href="{{exam.url}}"
+                target="_blank"
+              >
+                Descargar
+                <ion-icon name="cloud-download" slot="end"></ion-icon>
+              </ion-button>
+            </ng-template>
           </ion-item>
         </div>
       </ion-list>

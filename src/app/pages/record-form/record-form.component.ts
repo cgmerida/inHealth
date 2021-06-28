@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { SafeResourceUrl } from '@angular/platform-browser';
 import { AlertController, LoadingController, ModalController, Platform } from '@ionic/angular';
 import { RecordService } from 'src/app/services/app/record.service';
 import { ErrorService } from 'src/app/services/error.service';
@@ -16,7 +16,7 @@ import { StorageService } from 'src/app/services/storage.service';
 export class RecordFormComponent implements OnInit {
 
   recordForm: FormGroup;
-  clicked: boolean;
+  isSubmitted: boolean;
 
   @ViewChild('filePicker', { static: false }) filePickerRef: ElementRef<HTMLInputElement>;
   document: SafeResourceUrl;
@@ -33,8 +33,7 @@ export class RecordFormComponent implements OnInit {
     private storageService: StorageService,
     private errorService: ErrorService,
     private platform: Platform,
-    private datePipe: DatePipe,
-    private sanitizer: DomSanitizer) {
+    private datePipe: DatePipe) {
   }
 
   get isDesktop(): boolean {
@@ -97,7 +96,7 @@ export class RecordFormComponent implements OnInit {
   }
 
   onSubmit() {
-    this.clicked = true;
+    this.isSubmitted = true;
     if (!this.recordForm.valid) {
       return false;
     }

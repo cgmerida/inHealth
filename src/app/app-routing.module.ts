@@ -39,12 +39,6 @@ const routes: Routes = [
     data: { authGuardPipe: redirectOrVerifyEmail }
   },
   {
-    path: 'admin',
-    loadChildren: () => import('./admin-tabs/admin-tabs.module').then(m => m.AdminTabsPageModule),
-    canActivate: [AngularFireAuthGuard, AdminGuard],
-    data: { authGuardPipe: redirectOrVerifyEmail }
-  },
-  {
     path: '404',
     loadChildren: () => import('./notfound/notfound.module').then(m => m.NotfoundPageModule)
   },

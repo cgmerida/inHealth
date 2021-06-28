@@ -4,7 +4,7 @@ import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/models/user';
 import { Observable } from 'rxjs';
 import { Record } from 'src/app/models/app/record';
-import { ModalController, Platform } from '@ionic/angular';
+import { LoadingController, ModalController, Platform } from '@ionic/angular';
 import { RecordFormComponent } from '../record-form/record-form.component';
 import { RecordService } from 'src/app/services/app/record.service';
 
@@ -24,7 +24,8 @@ export class ProfilePage implements OnInit {
     private userService: UserService,
     private recordsService: RecordService,
     private modalController: ModalController,
-    private platform: Platform
+    private platform: Platform,
+    private loadingController: LoadingController
   ) {
   }
   ngOnInit(): void {
@@ -64,7 +65,13 @@ export class ProfilePage implements OnInit {
   }
 
   async logOut() {
+    let loading = await this.loadingController.create();
+    await loading.present();
+
     await this.authService.SignOut();
+
+    await this.delay(1000);
+    await loading.dismiss();
   }
 
   async addRecord() {
@@ -88,6 +95,10 @@ export class ProfilePage implements OnInit {
 
   trackBy(index: number, record: Record) {
     return record.uid;
+  }
+
+  private delay(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 
 }

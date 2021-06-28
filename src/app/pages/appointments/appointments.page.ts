@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AlertController, Platform } from '@ionic/angular';
 import { Appointment } from 'src/app/models/app/appointment';
 import { AppointmentService } from 'src/app/services/app/appointment.service';
@@ -7,6 +7,7 @@ import { AppointmentService } from 'src/app/services/app/appointment.service';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { HttpClient } from '@angular/common/http';
 import { Filesystem, FilesystemDirectory } from '@capacitor/core';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -14,12 +15,10 @@ import { Filesystem, FilesystemDirectory } from '@capacitor/core';
   templateUrl: './appointments.page.html',
   styleUrls: ['./appointments.page.scss'],
 })
-export class AppointmentsPage {
-  appointments: Appointment[];
+export class AppointmentsPage implements OnInit {
 
+  appointments: Observable<Appointment[]>;
   statusColor = { "Agendada": "dark", "Esperando resultados": "tertiary", "Completada": "success", "Cancelada": "danger" };
-
-  downloadProgress = 0;
 
   constructor(
     private appointmentService: AppointmentService,
@@ -28,13 +27,14 @@ export class AppointmentsPage {
     public platform: Platform,
     private http: HttpClient
   ) {
-    this.appointmentService.getAppointmentsByUser().subscribe(app => {
-      this.appointments = app;
-    });
+  }
+
+  ngOnInit() {
+    this.appointments = this.appointmentService.getAppointmentsByUser();
   }
 
   get isMobile() {
-    return (this.platform.is('android') || this.platform.is('hybrid')) === true
+    return this.platform.is('hybrid');
   }
 
   downloadFile = async (url: string) => {
@@ -56,7 +56,7 @@ export class AppointmentsPage {
           data: base64Data,
           directory: FilesystemDirectory.Documents
         });
-        
+
         console.log("img saved");
         console.log(savedFile);
 
