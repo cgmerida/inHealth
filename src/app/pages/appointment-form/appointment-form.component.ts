@@ -19,12 +19,12 @@ export class AppointmentFormComponent implements OnInit {
   appointmentForm: FormGroup;
   clinics: Observable<Clinic[]>;
   specialties: Clinic["specialties"];
-  minDate = new Date().toDateString();
+  minDate: Date;
 
   clicked: boolean;
 
   // Data passed in by componentProps
-  @Input() selectedClinic: Clinic;
+  @Input() selectedClinic: Clinic = null;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -33,6 +33,11 @@ export class AppointmentFormComponent implements OnInit {
     private alertCtl: AlertController,
     private clinicService: ClinicService,
     private appointmentService: AppointmentService) {
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    this.minDate = tomorrow;
+
   }
 
   ngOnInit() {

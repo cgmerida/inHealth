@@ -7,7 +7,6 @@ import { AlertController, NavController } from '@ionic/angular';
 import { ErrorService } from './error.service';
 import { Subscription } from 'rxjs';
 import { User } from '../models/user';
-import { UserService } from './user.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 
 @Injectable({

@@ -21,7 +21,7 @@ const { Filesystem } = Plugins;
 export class AppointmentsPage implements OnInit {
 
   appointments: Observable<Appointment[]>;
-  statusColor = { "Agendada": "dark", "Esperando resultados": "tertiary", "Completada": "success", "Cancelada": "danger" };
+  statusColor = { "Agendada": "dark", "Reagendada": "warning", "Esperando resultados": "tertiary", "Completada": "success", "Cancelada": "danger" };
 
   constructor(
     private appointmentService: AppointmentService,
